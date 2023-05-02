@@ -19,5 +19,6 @@ from askme import views
 
 urlpatterns = [
     path('', views.index),
+    path('api/', views.tempAPI),
     path('admin/', admin.site.urls),
 ]
