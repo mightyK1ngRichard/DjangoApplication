@@ -18,7 +18,7 @@ from django.urls import path
 from askme import views
 
 urlpatterns = [
-    path('', views.index),
-    path('api/', views.tempAPI),
+    path('', views.index, name='index'),
+    path('api/', views.tempAPI, name='api'),
     path('admin/', admin.site.urls),
 ]
