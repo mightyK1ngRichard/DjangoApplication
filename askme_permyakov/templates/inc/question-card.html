@@ -6,10 +6,10 @@
             <img src="{% static "img/logo.jpeg" %}" class="question-logo" alt="logo">
         </div>
         <div class="col-8">
-            <h2><a href="#"> Заголовок </a></h2>
+            <h2><a href="/detail/{{ data.id }}"> {{ data.title }} </a></h2>
 
             <div class="question-text">
-                klfdjsfkl jakljk dk;ljk ajs;kldsjfkl; j;klfj klsj jklajkl fjklj kj v,ams'm kak lak lklfk alklk a;mg ,agmkl q gjkl g;lkjkklfj sklajf klsjalkfjkgjq'osjgk;m'J GKQMHLJKL;ank;jwf;klksa;f ja; jkl jsk;aj kjakl j;l jk skl fjkjfkl jlskjf klasjkl fjsdk;ljf ;kljfkldj ;kljkl jksdlaj klajfk l;sjkl;fj kljkldsfjkl ...
+                {{ data.text }}
             </div>
 
             <div class="row">

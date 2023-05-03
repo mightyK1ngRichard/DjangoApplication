@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+INFO = [
+    {
+        'id': f'{i}',
+        'title': f'Title {i}',
+        'text': f'text {i}'
+    } for i in range(10)
+]
