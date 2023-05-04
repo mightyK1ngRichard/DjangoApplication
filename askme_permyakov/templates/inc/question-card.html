@@ -3,25 +3,25 @@
 <div class="question">
     <div class="row">
         <div class="col-2">
-            <img src="{% static "img/logo.jpeg" %}" class="question-logo" alt="logo">
+            <img src="{{ data.avatar }}" class="question-logo" alt="logo">
         </div>
         <div class="col-8">
             <h2><a href="/question/{{ data.id }}"> {{ data.title }} </a></h2>
 
             <div class="question-text">
-                {{ data.text }}
+                {{ data.content }}
             </div>
 
             <div class="row">
                 <div class="col-2">
-                    Ответы ({{ data.count_response }})
+                    Ответы ({{ count_question }})
                 </div>
                 <div class="col-6">
                     Tags:
-                    {% for tag in data.tags %}
+{#                    {% for tag in data.tags %}#}
                         {#TODO: Ссылка переделать!!#}
-                        <a href="{{ tag.id_tag }}">tag.name_tag</a>
-                    {% endfor %}
+{#                        <a href="#">tag.name_tag</a>#}
+{#                    {% endfor %}#}
 
                 </div>
             </div>
