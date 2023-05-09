@@ -1,30 +1,31 @@
 {% load static %}
 {% block content %}
+{% load askme_tags %}
+
 <div class="question">
     <div class="row">
         <div class="col-2">
-            <img src="{{ data.avatar }}" class="question-logo" alt="logo">
+            <img src="/{{ post.author.avatar }}" class="question-logo" alt="logo">
         </div>
         <div class="col-8">
-            <h2><a href="/question/{{ data.id }}"> {{ data.title }} </a></h2>
+            <h2><a href="/question/{{ post.id }}"> {{ post.title }} </a></h2>
 
             <div class="question-text">
-                {{ data.content }}
+                {{ post.content }}
             </div>
 
             <div class="row">
+                {% get_tags post.id as tags %}
                 <div class="col-2">
-                    Ответы ({{ count_question }})
+                    Ответы ({{ tags.count }})
                 </div>
                 <div class="col-6">
-                    Tags:
-{#                    {% for tag in data.tags %}#}
-                        {#TODO: Ссылка переделать!!#}
-{#                        <a href="#">tag.name_tag</a>#}
-{#                    {% endfor %}#}
-
+                    {% for tag in tags %}
+                        <a href="#">{{ tag.tag.name }}</a>
+                    {% endfor %}
                 </div>
             </div>
+
 
         </div>
     </div>
