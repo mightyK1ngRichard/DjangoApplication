@@ -7,7 +7,6 @@ from .models import *
 
 def index(request):
     posts = Posts.objects.all()
-
     return render(request, 'index.html', {
         'posts': posts
     })
@@ -16,8 +15,8 @@ def index(request):
 def question(request, current_id):
     post = get_object_or_404(Posts, pk=current_id)
 
-    return render(request, 'index.html', context={
-        'posts': [post]
+    return render(request, 'detail_of_question.html', context={
+        'post': post
     })
 
 

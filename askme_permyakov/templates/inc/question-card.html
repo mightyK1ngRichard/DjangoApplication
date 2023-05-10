@@ -1,7 +1,7 @@
 {% load static %}
-{% block content %}
 {% load askme_tags %}
 
+{% block content %}
 <div class="question">
     <div class="row">
         <div class="col-2">
@@ -15,9 +15,12 @@
             </div>
 
             <div class="row">
+                {# ==== Теги ===#}
                 {% get_tags post.id as tags %}
+                {% get_responses_under_post post.id as responses %}
+
                 <div class="col-2">
-                    Ответы ({{ tags.count }})
+                    Ответы ({{ responses.count }})
                 </div>
                 <div class="col-6">
                     {% for tag in tags %}

@@ -8,3 +8,8 @@ register = template.Library()
 @register.simple_tag()
 def get_tags(post_id):
     return TagsOfPost.objects.filter(post_id=post_id)
+
+
+@register.simple_tag()
+def get_responses_under_post(post_id):
+    return ResponsesUnderPost.objects.filter(post_id=post_id)
