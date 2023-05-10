@@ -49,13 +49,15 @@
     </div>
 
     {# Ответы #}
-    <h3> Ответы:</h3>
-    {% if responses.count == 0 %}
-        Ответов нет :(
-    {% else %}
-        {% for respond in responses %}
-            {% include 'inc/respond_view.html' %}
-        {% endfor %}
-    {% endif %}
+    <div hidden id="block-responses">
+        <h3> Ответы:</h3>
+        {% if responses.count == 0 %}
+            Ответов нет :(
+        {% else %}
+            {% for respond in responses %}
+                {% include 'inc/respond_view.html' %}
+            {% endfor %}
+        {% endif %}
+    </div>
 
 {% endblock content %}
