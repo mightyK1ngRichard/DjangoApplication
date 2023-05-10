@@ -76,11 +76,14 @@ WSGI_APPLICATION = 'askme_permyakov.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stack_overflow',
-        'USER': 'postgres',
-        'PASSWORD': '430133',
-        'HOST': 'localhost',
-        'PORT': '8080'
+        'NAME': 'student_dimapermyakov55',
+        'USER': 'student_dimapermyakov55',
+        'PASSWORD': 'qwerty123',
+        'HOST': 'dc-webdev.bmstu.ru',
+        'PORT': '8080',
+        'OPTIONS': {
+            'options': '-c search_path=stack_overflow'
+        }
     }
 }
 

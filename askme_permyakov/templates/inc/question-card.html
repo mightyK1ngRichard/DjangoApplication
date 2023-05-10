@@ -11,7 +11,7 @@
             <h2><a href="/question/{{ post.id }}"> {{ post.title }} </a></h2>
 
             <div class="question-text">
-                {{ post.content }}
+                {{ post.content|truncatechars:300  }}
             </div>
 
             <div class="row">

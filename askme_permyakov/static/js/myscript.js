@@ -23,4 +23,7 @@ btnSendRespond.addEventListener('click', function () {
     blockResponses.hidden = false;
     // TODO: сделать SQL INSERT
     console.log(inputField.value)
+
+    respondField.hidden = true;
+    btnRespond.disabled = false;
 })
