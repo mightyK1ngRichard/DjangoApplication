@@ -11,18 +11,14 @@ main > .container {
     padding: 10px;
 }
 
-.question-logo {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+/*.question-logo {*/
+/*    height: 150px;*/
+/*    width: 150px;*/
+/*    border-radius: 50%;*/
+/*    object-fit: cover;*/
+/*}*/
 
 .question-logo > img {
     height: 100%;
     width: 100%;
-}
-
-.question-text {
-    margin-bottom: 5%;
 }

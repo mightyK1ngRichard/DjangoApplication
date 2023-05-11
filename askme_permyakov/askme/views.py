@@ -101,9 +101,11 @@ def logout_user(request):
 def question(request, current_id):
     if request.method == 'POST':
         respond_content = request.POST.get('content')
-        author = Author.objects.get(user_id=request.user.id)
-        new_respond = Response.objects.create(content=respond_content, author_id=author.id)
-        ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
+        if respond_content != '':
+            author = Author.objects.get(user_id=request.user.id)
+            new_respond = Response.objects.create(content=respond_content, author_id=author.id)
+            ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
+
         return redirect(reverse('question', args=[current_id]))
 
     post = get_object_or_404(Posts, pk=current_id)
