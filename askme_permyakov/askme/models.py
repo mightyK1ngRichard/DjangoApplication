@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -9,11 +10,12 @@ class Tag(models.Model):
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=255)
-    avatar = models.ImageField(upload_to='static/img', default='https://i.pinimg.com/originals/64/94/0c/64940cfc8514d44598287ab290905cf8.jpg')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # name = models.CharField(max_length=255)
+    avatar = models.ImageField(upload_to='static/img', default='static/img/mX79RHzayOI_JCIIjd9.jpg')
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Posts(models.Model):

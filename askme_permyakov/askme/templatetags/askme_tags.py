@@ -13,3 +13,8 @@ def get_tags(post_id):
 @register.simple_tag()
 def get_responses_under_post(post_id):
     return ResponsesUnderPost.objects.filter(post_id=post_id)
+
+
+@register.simple_tag()
+def get_author_info(user_id):
+    return Author.objects.get(user_id=user_id)

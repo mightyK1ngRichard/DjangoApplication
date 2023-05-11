@@ -1,10 +1,42 @@
+{% load static %}
+{% load askme_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Страница - {{ user.username }}</title>
+    <link href="{% static "css/user_page.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
 </head>
 <body>
-<h1>Тут будет страница - {{ user.username }}</h1>
+<div class="container mt-5 d-flex justify-content-center">
+    {% get_author_info user.id as author %}
+    <div class="card p-3">
+        <div class="d-flex align-items-center">
+            <div class="image">
+                <img src="/{{ author.avatar }}"
+                     class="rounded" width="355" style="margin-right: 30px">
+            </div>
+            <div class="ml-3 w-100">
+                <h4 class="mb-0 mt-0">{{ user.first_name }} {{ user.last_name }}</h4>
+                <span>Senior Journalist</span>
+                <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                    <div class="d-flex flex-column">
+                        <span class="articles">Постов</span>
+                        <span class="number1">38</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="rating">Ответов</span>
+                        <span class="number3">8.9</span>
+                    </div>
+                </div>
+                <div class="button mt-2 d-flex flex-row align-items-center">
+                    <button class="btn btn-sm btn-outline-primary w-100">Редактировать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

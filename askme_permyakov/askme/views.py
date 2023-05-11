@@ -9,7 +9,7 @@ from django.http import HttpResponseNotFound, Http404
 from django.urls import reverse
 from django.views.generic import CreateView
 
-from askme_permyakov.forms import LoginForm
+from askme_permyakov.forms import LoginForm, RegistrationForm
 from .models import *
 
 
@@ -41,7 +41,23 @@ def login_user(request):
 
 
 def register_user(request):
-    return HttpResponse('logup')
+    if request.method == 'GET':
+        user_form = RegistrationForm()
+    elif request.method == 'POST':
+        user_form = RegistrationForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            if user:
+                # Создаём связь с таблицей авторы.
+                user_profile = Author(user=user)
+                user_profile.save()
+                return redirect(reverse('index'))
+
+            user_form.add_error(None, 'User saving error!')
+
+    return render(request, 'register_user.html', {
+        'form': user_form
+    })
 
 
 @login_required(login_url='/login/')

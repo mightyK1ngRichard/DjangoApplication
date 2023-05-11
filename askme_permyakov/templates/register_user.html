@@ -8,17 +8,17 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Вход</title>
+    <title>Регистрация</title>
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
 </head>
 <body>
 <div class="container" style="width: 400px; margin-top: 100px; padding: 30px; border: #0d6efd">
-    <form novalidate method="POST" action="/login/">
+    <form novalidate method="POST" action="{% url 'register' %}">
         {% csrf_token %}
         <div class="mb-3">
             {% bootstrap_form form %}
         </div>
-        <button type="submit" class="btn btn-primary">Вход</button>
+        <button type="submit" class="btn btn-primary">Регистрация</button>
     </form>
 </div>
 </body>
