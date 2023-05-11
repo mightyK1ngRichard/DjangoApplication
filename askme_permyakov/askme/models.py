@@ -22,7 +22,7 @@ class Posts(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     date_public = models.DateField(auto_now=True)
-    likes_count = models.IntegerField()
+    likes_count = models.IntegerField(default=0)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -30,8 +30,8 @@ class Posts(models.Model):
 
 
 class TagsOfPost(models.Model):
-    post = models.ForeignKey(Posts, on_delete=models.PROTECT)
-    tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
 
 class Response(models.Model):

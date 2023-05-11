@@ -11,20 +11,41 @@ from .models import *
 
 def index(request):
     if request.method == 'POST':
-        data = request.POST.get('searching_text', '')
-        # Если текст пользователя не пуст.
+        data = request.POST.get('searching_text')
+
+        # Если data is None, значит форма пришла из создания поста.
+        if data is None:
+            user_title = request.POST.get('title')
+            user_text = request.POST.get('text')
+            user_tags = request.POST.get('tags[]')
+            user_id = request.user.id
+
+            # Если поля пустые, запись создана не будет. Делать проверки и писать про ошибки пока лень.
+            if user_title == '' and user_text == '':
+                posts = Posts.objects.all()
+                return render(request, 'index.html', {'posts': posts})
+
+            new_post = Posts.objects.create(title=user_title, content=user_text, author_id=user_id)
+            for tag in user_tags:
+                TagsOfPost.objects.create(post_id=new_post.id, tag_id=tag)
+
+            return redirect(reverse('index'))
+
+        # Если текст пользователя не пуст. Если пуст, вернём все посты.
         if data != '':
             posts = Posts.objects.filter(title__icontains=data)
             # Если найдены совпадения.
             if len(posts) != 0:
-                return render(request, 'index.html', {
-                    'posts': posts
-                })
+                return render(request, 'index.html', {'posts': posts})
 
     posts = Posts.objects.all()
-    return render(request, 'index.html', {
-        'posts': posts
-    })
+    return render(request, 'index.html', {'posts': posts})
+
+
+def create_post(request):
+    print(request.POST)
+    tags = Tag.objects.all()
+    return render(request, 'create_post.html', {'tags': tags})
 
 
 def login_user(request):
@@ -32,9 +53,7 @@ def login_user(request):
         login_form = LoginForm()
 
     elif request.method == 'POST':
-
         login_form = LoginForm(request.POST)
-
         if login_form.is_valid():
             user = auth.authenticate(request=request, **login_form.cleaned_data)
             if user:
