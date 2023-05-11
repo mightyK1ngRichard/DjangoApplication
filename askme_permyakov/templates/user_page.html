@@ -1,16 +1,9 @@
 {% load static %}
 {% load askme_tags %}
+{% include 'inc/base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница - {{ user.username }}</title>
-    <link href="{% static "css/user_page.css" %}" rel="stylesheet">
-    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5 d-flex justify-content-center">
+{% block content %}
+    <div class="container mt-3 d-flex justify-content-center">
     {% get_author_info user.id as author %}
     <div class="card p-3">
         <div class="d-flex align-items-center">
@@ -24,7 +17,7 @@
                 <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
                     <div class="d-flex flex-column">
                         <span class="articles">Постов</span>
-                        <span class="number1">{{ author.count_post }}</span>
+                        <span class="number3">{{ author.count_post }}</span>
                     </div>
                     <div class="d-flex flex-column">
                         <span class="rating">Ответов</span>
@@ -38,5 +31,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+{% endblock content %}

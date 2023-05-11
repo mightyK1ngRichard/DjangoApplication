@@ -10,6 +10,17 @@ from .models import *
 
 
 def index(request):
+    if request.method == 'POST':
+        data = request.POST.get('searching_text')
+        # Если текст пользователя не пуст.
+        if data != '':
+            posts = Posts.objects.filter(title__icontains=data)
+            # Если найдены совпадения.
+            if len(posts) != 0:
+                return render(request, 'index.html', {
+                    'posts': posts
+                })
+
     posts = Posts.objects.all()
     return render(request, 'index.html', {
         'posts': posts
