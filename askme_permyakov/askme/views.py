@@ -17,15 +17,15 @@ def index(request):
         if data is None:
             user_title = request.POST.get('title')
             user_text = request.POST.get('text')
-            user_tags = request.POST.get('tags[]')
-            user_id = request.user.id
-
+            user_tags = request.POST.get('tags[]', [])
+            author = Author.objects.get(user_id=request.user.id)
             # Если поля пустые, запись создана не будет. Делать проверки и писать про ошибки пока лень.
             if user_title == '' and user_text == '':
                 posts = Posts.objects.all()
                 return render(request, 'index.html', {'posts': posts})
 
-            new_post = Posts.objects.create(title=user_title, content=user_text, author_id=user_id)
+            new_post = Posts.objects.create(title=user_title, content=user_text, author_id=author.id)
+
             for tag in user_tags:
                 TagsOfPost.objects.create(post_id=new_post.id, tag_id=tag)
 
@@ -101,8 +101,8 @@ def logout_user(request):
 def question(request, current_id):
     if request.method == 'POST':
         respond_content = request.POST.get('content')
-        user_of_respond = request.user.id
-        new_respond = Response.objects.create(content=respond_content, author_id=user_of_respond)
+        author = Author.objects.get(user_id=request.user.id)
+        new_respond = Response.objects.create(content=respond_content, author_id=author.id)
         ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
         return redirect(reverse('question', args=[current_id]))
 
