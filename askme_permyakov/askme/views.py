@@ -1,14 +1,10 @@
 from django.contrib import auth
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, Http404
 from django.urls import reverse
-from django.views.generic import CreateView
-
 from askme_permyakov.forms import LoginForm, RegistrationForm
 from .models import *
 
