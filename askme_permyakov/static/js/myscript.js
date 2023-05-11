@@ -12,18 +12,14 @@ btnRespond.addEventListener('click', function () {
     respondField.hidden = false;
 })
 
-cancelRespond.addEventListener('click', function () {
-    blockResponses.hidden = false;
+// cancelRespond.addEventListener('click', function () {
+//     blockResponses.hidden = false;
+//     respondField.hidden = true;
+//     btnRespond.disabled = false;
+// })
 
-    respondField.hidden = true;
-    btnRespond.disabled = false;
-})
-
-btnSendRespond.addEventListener('click', function () {
-    blockResponses.hidden = false;
-    // TODO: сделать SQL INSERT
-    console.log(inputField.value)
-
-    respondField.hidden = true;
-    btnRespond.disabled = false;
-})
+// btnSendRespond.addEventListener('click', function () {
+//     blockResponses.hidden = false;
+//     respondField.hidden = true;
+//     btnRespond.disabled = false;
+// })

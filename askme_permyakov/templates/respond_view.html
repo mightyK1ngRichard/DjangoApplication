@@ -1,0 +1,17 @@
+{% load static %}
+
+{% block content %}
+
+    <div class="col-md-12" id="respond_view">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <img id="logo-in-respond" src="/{{ respond.response.author.avatar }}"
+                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; margin-left:  10px"
+                 alt="avatar"/>
+            <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">{{ respond.response.author.user.username }}</strong>
+                <div class="mb-1 text-body-secondary">{{ respond.response.date_response }}</div>
+                <p class="card-text mb-auto">{{ respond.response.content }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

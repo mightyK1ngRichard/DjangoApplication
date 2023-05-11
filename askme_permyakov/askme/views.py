@@ -43,7 +43,6 @@ def index(request):
 
 
 def create_post(request):
-    print(request.POST)
     tags = Tag.objects.all()
     return render(request, 'create_post.html', {'tags': tags})
 
@@ -61,16 +60,12 @@ def login_user(request):
                 return redirect(reverse('index'))
             login_form.add_error(None, 'Invalid username or password')
 
-    return render(request, 'login.html', {
-        'form': login_form
-    })
+    return render(request, 'login.html', {'form': login_form})
 
 
 def post_with_tag(request, tag_id):
     posts_with_tag = [el.post for el in TagsOfPost.objects.filter(tag_id=tag_id)]
-    return render(request, 'index.html', {
-        'posts': posts_with_tag
-    })
+    return render(request, 'index.html', {'posts': posts_with_tag})
 
 
 def register_user(request):
@@ -104,8 +99,14 @@ def logout_user(request):
 
 
 def question(request, current_id):
-    post = get_object_or_404(Posts, pk=current_id)
+    if request.method == 'POST':
+        respond_content = request.POST.get('content')
+        user_of_respond = request.user.id
+        new_respond = Response.objects.create(content=respond_content, author_id=user_of_respond)
+        ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
+        return redirect(reverse('question', args=[current_id]))
 
+    post = get_object_or_404(Posts, pk=current_id)
     return render(request, 'detail_of_question.html', context={
         'post': post
     })

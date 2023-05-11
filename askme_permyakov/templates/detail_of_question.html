@@ -39,11 +39,18 @@
         <div>
             <label for="my-textarea">Введите ответ на вопрос:</label>
         </div>
-        <textarea id="my-textarea" name="my-textarea" rows="5"></textarea>
-        <div style="display: flex; justify-content: space-between;">
-            <button class="btn btn-primary" id="cancel-respond" type="button">Отменить</button>
-            <button class="btn btn-primary" id="send-respond" type="button">Отправить</button>
-        </div>
+        <form method="POST" action="{% url 'question' post.id %}">
+            {% csrf_token %}
+            <textarea id="my-textarea" name="content" rows="5"></textarea>
+            <div style="display: flex; justify-content: space-between;">
+                <button type="button" class="btn btn-outline-dark btn-sm btn-form-submit mb-4 mt-2" id="cancel-respond">
+                    Отменить
+                </button>
+                <button type="submit" class="btn btn-outline-dark btn-sm btn-form-submit mb-4 mt-2" id="send-respond">
+                    Отправить
+                </button>
+            </div>
+        </form>
     </div>
 
     {# Ответы #}
@@ -53,7 +60,7 @@
             Ответов нет :(
         {% else %}
             {% for respond in responses %}
-                {% include 'inc/respond_view.html' %}
+                {% include 'respond_view.html' %}
             {% endfor %}
         {% endif %}
     </div>
