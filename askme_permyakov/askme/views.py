@@ -11,7 +11,7 @@ from .models import *
 
 def index(request):
     if request.method == 'POST':
-        data = request.POST.get('searching_text')
+        data = request.POST.get('searching_text', '')
         # Если текст пользователя не пуст.
         if data != '':
             posts = Posts.objects.filter(title__icontains=data)
