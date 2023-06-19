@@ -2,41 +2,37 @@
 {% load askme_tags %}
 
 {% block content %}
-    <link href="{% static "css/question.css" %}" rel="stylesheet">
-    <div class="question">
-        <div class="row">
-            <div class="col-2">
-                <img src="/{{ post.author.avatar }}" class="question-logo"
-                     style="
-                            height: 150px;
-                            width: 150px;
-                            border-radius: 20px;
-                            object-fit: cover;"
-                     alt="logo">
-            </div>
-            <div class="col-10">
-                <h3><a href="/question/{{ post.id }}" style="color: rgba(0,0,0,0.85)"> {{ post.title }} </a></h3>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}">
+    <body>
+    <main class="container">
+        <div class="event">
+            <div class="row">
+                <div class="col-11">
+                    <div class="author-info">
+                        <img src="/{{ post.author.avatar }}" class="question-logo" alt="logo">
+                        <span class="author-name">{{ post.author.user.username }}</span>
+                    </div>
 
-                <div class="question-text">
-                    {{ post.content|truncatechars:300 }}
-                </div>
+                    <h2><a href="/question/{{ post.id }}">{{ post.title }}</a></h2>
+                    <div class="row">
+                        {% get_tags post.id as tags %}
+                        {% get_responses_under_post post.id as responses %}
 
-                <div class="row">
-                    {# ==== Теги ===#}
-                    {% get_tags post.id as tags %}
-                    {% get_responses_under_post post.id as responses %}
-
+                        <div class="col-2">
+                            {% for tag in tags %}
+                                <a class="category" href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="question-text">
+                        {{ post.content|truncatechars:400 }}
+                    </div>
                     <div class="col-2">
-                        Ответы ({{ responses.count }})
-                    </div>
-                    <div class="col-6">
-                        {% for tag in tags %}
-                            <a href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
-                        {% endfor %}
+                        <p class="category">Ответы ({{ responses.count }})</p>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
+    </main>
+    </body>
 {% endblock content %}

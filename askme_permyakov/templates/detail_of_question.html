@@ -3,84 +3,112 @@
 {% load askme_tags %}
 
 {% block content %}
-    <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
-        <div class="row">
-            <div class="col-10">
-                <img src="/{{ post.author.avatar }}" alt="avatar"
-                     style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover;">
-            </div>
-            <div class="col-2">
+    <div class="container">
+        <div class="event">
+            <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img src="/{{ post.author.avatar }}" alt="avatar"
+                             style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;">
+                    </div>
+                    <div class="col-auto">
+                        <h6 class="mb-0">{{ post.author.user.username }}</h6>
+                    </div>
+                </div>
+                <div class="container-fluid py-2">
+                    {% isAuthor user.id post.author.id as isAuthorOfPost %}
+                    <h4 class="display-5 fw-bold">{{ post.title }}</h4>
+                    <pre><p>{{ post.content }}</p></pre>
+                    {% if isAuthorOfPost %}
+                        <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
+                              action="{% url 'delete_post' %}">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="submit"
+                                    name="post_id" id="post"
+                                    value="{{ post.id }}"
+                                    onclick="return confirmDelete();">Удалить
+                            </button>
+                        </form>
+                    {% else %}
+                        <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="button"
+                                id="respond">Ответить
+                        </button>
+                    {% endif %}
+                    <div class="row">
+                        {% get_tags post.id as tags %}
+                        {% get_responses_under_post post.id as responses %}
+                        <div class="col-2">
+                            Ответы ({{ responses.count }})
+                        </div>
+                        <div class="col-6">
+                            Теги:
+                            {% for tag in tags %}
+                                <a href="/tag/{{ tag.id }}">{{ tag.tag.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="container-fluid py-2">
-            {% isAuthor user.id post.author.id as isAuthorOfPost %}
-            <h4 class="display-5 fw-bold">{{ post.title }}</h4>
-            <pre><p>{{ post.content }}</p></pre>
-            {# Проверка, автор ли ты #}
-            {% if isAuthorOfPost %}
-                <script>
-                    function confirmDelete() {
-                        let confirmation = confirm("Вы уверены, что хотите удалить этот пост?");
-                        return confirmation;
-                    }
-                </script>
-                <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
-                      action="{% url 'delete_post' %}">
-                    {% csrf_token %}
-                    <button class="btn btn-primary btn-lg" type="submit" name="post_id" id="post" value="{{ post.id }}"
-                            onclick="return confirmDelete();">Удалить
-                    </button>
-                </form>
-            {% else %}
-                <button class="btn btn-primary btn-lg" type="button" id="respond">Ответить</button>
-            {% endif %}
-            <div class="row">
-                {# ==== Теги ===#}
-                {% get_tags post.id as tags %}
-                {% get_responses_under_post post.id as responses %}
-                <div class="col-2">
-                    Ответы ({{ responses.count }})
-                </div>
-                <div class="col-6">
-                    Теги:
-                    {% for tag in tags %}
-                        <a href="/tag/{{ tag.id }}">{{ tag.tag.name }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    {# Input #}
-    <link rel="stylesheet" href="{% static 'css/input.css' %}">
-    <div hidden class="text-field-for-respond" id="myElement" style="margin-bottom: 100px">
         <div>
-            <label for="my-textarea">Введите ответ на вопрос:</label>
-        </div>
-        <form method="POST" action="{% url 'question' post.id %}">
-            {% csrf_token %}
-            <textarea id="my-textarea" name="content" rows="5"></textarea>
-            <div style="display: flex; justify-content: space-between;">
-                <button class="btn btn-outline-dark btn-sm btn-form-submit mb-4 mt-2" id="cancel-respond" type="button">
-                    Отменить
-                </button>
-                <button type="submit" class="btn btn-outline-dark btn-sm btn-form-submit mb-4 mt-2" id="send-respond">
-                    Отправить
-                </button>
+            <link rel="stylesheet" href="{% static 'css/input.css' %}">
+            <style>
+                /* Темная тема для поля ввода текста */
+                .text-field-for-respond {
+                    color: #fff;
+                }
+
+                .text-field-for-respond label {
+                    color: #fff;
+                }
+
+                .text-field-for-respond textarea {
+                    background-color: #000000;
+                    color: #fff;
+                }
+
+                .text-field-for-respond .btn-form-submit {
+                    color: #fff;
+                    border-color: #555;
+                }
+
+            </style>
+            <script>
+                function confirmDelete() {
+                    const confirmation = confirm("Вы уверены, что хотите удалить этот пост?");
+                    return confirmation;
+                }
+            </script>
+            <div hidden class="text-field-for-respond" id="myElement" style="margin-bottom: 100px">
+                <div>
+                    <label for="my-textarea">Введите ответ на вопрос:</label>
+                </div>
+                <form method="POST" action="{% url 'question' post.id %}">
+                    {% csrf_token %}
+                    <textarea id="my-textarea" name="content" rows="5"></textarea>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" id="cancel-respond"
+                                type="button">
+                            Отменить
+                        </button>
+                        <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2"
+                                id="send-respond">
+                            Отправить
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div hidden class="resp-block" id="block-responses" style="margin-bottom: 100px">
+                <h3>Ответы:</h3>
+                {% if responses.count == 0 %}
+                    Ответов нет :(
+                {% else %}
+                    {% for respond in responses %}
+                        {% include 'respond_view.html' %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
     </div>
-
-    {# Ответы #}
-    <div hidden id="block-responses" style="margin-bottom: 100px">
-        <h3> Ответы:</h3>
-        {% if responses.count == 0 %}
-            Ответов нет :(
-        {% else %}
-            {% for respond in responses %}
-                {% include 'respond_view.html' %}
-            {% endfor %}
-        {% endif %}
-    </div>
-
 {% endblock content %}

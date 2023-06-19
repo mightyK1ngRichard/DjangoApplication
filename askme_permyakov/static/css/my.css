@@ -1,24 +1,66 @@
-
-main > .container {
-    padding: 60px 15px 0;
+body {
+    background-color: #000;
+    color: #fff;
 }
 
-.question {
+.event {
+    background-color: rgba(24, 24, 26, 0.96);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.event h3 {
+    font-size: 18px;
     margin-bottom: 10px;
-    border: 2px solid black;
-    height: 220px;
-    border-radius: 20px;
-    padding: 10px;
 }
 
-/*.question-logo {*/
-/*    height: 150px;*/
-/*    width: 150px;*/
-/*    border-radius: 50%;*/
-/*    object-fit: cover;*/
-/*}*/
+.event a {
+    text-decoration: none;
+    color: #ffffff;
+}
 
-.question-logo > img {
-    height: 100%;
-    width: 100%;
+.event a:hover {
+    color: #ffe857;
+}
+
+.event .category {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: rgba(182, 112, 8, 0.98);
+}
+
+.event .description {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.event .datetime {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.event .price {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.event .address {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.event .organizer {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.event .contacts {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #ffffff;
 }

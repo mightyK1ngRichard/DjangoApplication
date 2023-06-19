@@ -17,9 +17,3 @@ cancelRespond.addEventListener('click', function () {
     respondField.hidden = true;
     btnRespond.disabled = false;
 })
-
-// // btnSendRespond.addEventListener('click', function () {
-// //     blockResponses.hidden = false;
-// //     respondField.hidden = true;
-// //     btnRespond.disabled = false;
-// // })
