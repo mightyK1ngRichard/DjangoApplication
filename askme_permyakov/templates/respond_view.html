@@ -1,10 +1,11 @@
 {% load static %}
+{% load askme_tags %}
 
 {% block content %}
     <style>
-    #respond_view {
-        background: rgba(14, 14, 16, 0.96);
-    }
+        #respond_view {
+            background: rgba(14, 14, 16, 0.96);
+        }
     </style>
     <div class="col-md-12" id="respond_view">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -12,10 +13,59 @@
                  style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; margin-left:  10px"
                  alt="avatar"/>
             <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2" style="color: #0dcaf0">{{ respond.response.author.user.username }}</strong>
+                <strong class="d-inline-block mb-2"
+                        style="color: #0dcaf0">{{ respond.response.author.user.username }}</strong>
                 <div class="mb-1 text-body-secondary" style="color: #525252">{{ respond.response.date_response }}</div>
                 <p class="card-text mb-auto">{{ respond.response.content }}</p>
             </div>
+            {% isAuthor user.id respond.response.author.id as isAuthorOfRespond %}
+            {% if isAuthorOfRespond %}
+                <form action="{% url 'delete_respond' %}" method="post">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-outline-light btn-sm btn-form-submit" style="width: 100px;"
+                            onclick="confirmDelete();">
+                        Удалить
+                    </button>
+                    <script>
+                        function confirmDelete() {
+                            const respondId = "{{ respond.response.id }}";
+                            const postId = "{{ post.id }}"; // Замените "значение_post_id" на фактическое значение post_id
+
+                            // Предупреждающее диалоговое окно
+                            const confirmation = confirm("Вы уверены, что хотите удалить?");
+
+                            if (confirmation) {
+                                // Создание формы и добавление полей с значениями respond_id и post_id
+                                const form = document.createElement("form");
+                                form.method = "POST";
+                                form.action = "{% url 'delete_respond' %}";
+
+                                const csrfTokenInput = document.createElement("input");
+                                csrfTokenInput.type = "hidden";
+                                csrfTokenInput.name = "csrfmiddlewaretoken";
+                                csrfTokenInput.value = "{{ csrf_token }}";  // CSRF-токен Django
+                                form.appendChild(csrfTokenInput);
+
+                                const respondIdInput = document.createElement("input");
+                                respondIdInput.type = "hidden";
+                                respondIdInput.name = "respond_id";
+                                respondIdInput.value = respondId;
+                                form.appendChild(respondIdInput);
+
+                                const postIdInput = document.createElement("input");
+                                postIdInput.type = "hidden";
+                                postIdInput.name = "post_id";
+                                postIdInput.value = postId;
+                                form.appendChild(postIdInput);
+
+                                // Добавление формы на страницу и отправка запроса
+                                document.body.appendChild(form);
+                                form.submit();
+                            }
+                        }
+                    </script>
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

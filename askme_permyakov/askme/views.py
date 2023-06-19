@@ -125,3 +125,12 @@ def delete_post(request):
             Response.objects.get(pk=el.response_id).delete()
         Posts.objects.get(pk=post_id).delete()
         return redirect(reverse('index'))
+
+
+def delete_respond(request):
+    if request.method == 'POST':
+        respond_id = request.POST.get('respond_id')
+        post_id = request.POST.get('post_id')
+        Response.objects.get(pk=respond_id).delete()
+
+        return redirect(reverse('question', args=[post_id]))

@@ -26,7 +26,6 @@ def get_author_info(user_id):
 @register.simple_tag()
 def isAuthor(user_id, author_id):
     author = Author.objects.get(user_id=user_id)
-    print("AUTHOR", author)
     if author.pk == author_id:
         return True
 

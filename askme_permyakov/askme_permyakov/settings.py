@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure--j9r#-%6dp&q##$oyg^95d%sotp#gdxc%(a0baedu%x+ypk4#q
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://dc-webdev.bmstu.ru',
+    '127.0.0.1',
+    'dc-webdev.bmstu.ru',
 ]
 
 # Application definition

@@ -105,7 +105,7 @@
                     Ответов нет :(
                 {% else %}
                     {% for respond in responses %}
-                        {% include 'respond_view.html' %}
+                        {% include 'respond_view.html' with post=post respond=respond %}
                     {% endfor %}
                 {% endif %}
             </div>
