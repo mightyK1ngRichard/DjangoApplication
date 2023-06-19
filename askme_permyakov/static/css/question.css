@@ -1,5 +1,6 @@
 .question {
     border-color: #0f113f;
+    box-shadow: 0 4px 8px 0 rgba(103, 41, 154, 0.29), 0 6px 20px 0 rgba(9, 17, 162, 0.23);
     margin-bottom: 20px;
     background: rgba(28, 34, 40, 0.07);
 }

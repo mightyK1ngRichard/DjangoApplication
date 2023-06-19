@@ -38,7 +38,7 @@ def index(request):
             if len(posts) != 0:
                 return render(request, 'index.html', {'posts': posts})
 
-    posts = Posts.objects.all()
+    posts = Posts.objects.all().order_by('-date_public')
     return render(request, 'index.html', {'posts': posts})
 
 
@@ -98,6 +98,7 @@ def logout_user(request):
     return redirect(reverse('index'))
 
 
+@login_required(login_url='/login/')
 def question(request, current_id):
     if request.method == 'POST':
         respond_content = request.POST.get('content')
@@ -112,3 +113,15 @@ def question(request, current_id):
     return render(request, 'detail_of_question.html', context={
         'post': post
     })
+
+
+def delete_post(request):
+    if request.method == "POST":
+        post_id = request.POST.get('post_id')
+        responses = ResponsesUnderPost.objects.filter(post_id=post_id)
+
+        # Удаляем все комментарии поста.
+        for el in responses:
+            Response.objects.get(pk=el.response_id).delete()
+        Posts.objects.get(pk=post_id).delete()
+        return redirect(reverse('index'))

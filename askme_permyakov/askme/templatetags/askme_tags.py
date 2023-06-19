@@ -21,3 +21,13 @@ def get_author_info(user_id):
     count_post = Posts.objects.filter(author_id=author.id).count()
     count_responses = Response.objects.filter(author_id=author.id).count()
     return {'author': author, 'count_post': count_post, 'count_responses': count_responses}
+
+
+@register.simple_tag()
+def isAuthor(user_id, author_id):
+    author = Author.objects.get(user_id=user_id)
+    print("AUTHOR", author)
+    if author.pk == author_id:
+        return True
+
+    return False

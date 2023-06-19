@@ -13,9 +13,27 @@
             </div>
         </div>
         <div class="container-fluid py-2">
+            {% isAuthor user.id post.author.id as isAuthorOfPost %}
             <h4 class="display-5 fw-bold">{{ post.title }}</h4>
             <pre><p>{{ post.content }}</p></pre>
-            <button class="btn btn-primary btn-lg" type="button" id="respond">Ответить</button>
+            {# Проверка, автор ли ты #}
+            {% if isAuthorOfPost %}
+                <script>
+                    function confirmDelete() {
+                        let confirmation = confirm("Вы уверены, что хотите удалить этот пост?");
+                        return confirmation;
+                    }
+                </script>
+                <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
+                      action="{% url 'delete_post' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-lg" type="submit" name="post_id" id="post" value="{{ post.id }}"
+                            onclick="return confirmDelete();">Удалить
+                    </button>
+                </form>
+            {% else %}
+                <button class="btn btn-primary btn-lg" type="button" id="respond">Ответить</button>
+            {% endif %}
             <div class="row">
                 {# ==== Теги ===#}
                 {% get_tags post.id as tags %}
