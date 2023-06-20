@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'dc-webdev.bmstu.ru',
+    '45.8.250.50',
 ]
 
 # Application definition
