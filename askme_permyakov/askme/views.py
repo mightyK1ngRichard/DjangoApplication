@@ -38,8 +38,19 @@ def index(request):
             if len(posts) != 0:
                 return render(request, 'index.html', {'posts': posts})
 
+    page_number = request.GET.get('page')
+
+    # Самодельный пагинатор.
+    # if page_number is None:
+    #     page_number = 1
+    # offset = (int(page_number) - 1) * 10
+    # posts = Posts.objects.all().order_by('-date_public')[offset:offset+10]
+
     posts = Posts.objects.all().order_by('-date_public')
-    return render(request, 'index.html', {'posts': posts})
+    paginator = Paginator(posts, 5)
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'index.html', {'posts': page_obj})
 
 
 def create_post(request):
