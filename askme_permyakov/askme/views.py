@@ -149,5 +149,8 @@ def delete_respond(request):
 
 def users(request):
     all_users = Author.objects.all()
-    print(all_users)
     return render(request, 'user.html', {'users': all_users})
+
+
+# def user_view(request):
+#     return render(request, 'temp.html')
