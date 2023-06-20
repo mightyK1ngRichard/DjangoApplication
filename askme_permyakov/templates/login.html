@@ -13,14 +13,31 @@
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
 </head>
 <body>
-<div class="container" style="width: 400px; margin-top: 100px; padding: 30px; border: #0d6efd">
+<div class="container" style="width: 400px; ">
     <form novalidate method="POST" action="/login/">
         {% csrf_token %}
         <div class="mb-3">
             {% bootstrap_form form %}
         </div>
-        <button type="submit" class="btn btn-primary">Вход</button>
+        <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-0 mt-2">Вход</button>
     </form>
+    <a href="{% url 'register' %}" style="margin-left: 10px">У вас нету аккаунта?</a>
 </div>
+<style>
+    body {
+        background: black;
+    }
+
+    label {
+        color: white;
+    }
+
+    form {
+        margin-top: 100px;
+        padding: 20px;
+        background-color: rgba(24, 24, 26, 0.96);
+        border-radius: 20px;
+    }
+</style>
 </body>
 </html>
