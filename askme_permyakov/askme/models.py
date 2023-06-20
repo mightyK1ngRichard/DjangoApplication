@@ -12,7 +12,7 @@ class Tag(models.Model):
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # name = models.CharField(max_length=255)
-    avatar = models.ImageField(upload_to='static/img', default='static/img/mX79RHzayOI_JCIIjd9.jpg')
+    avatar = models.ImageField(upload_to='static/img', default='static/img/default.webp')
 
     def __str__(self):
         return self.user.username
