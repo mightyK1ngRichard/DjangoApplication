@@ -1,3 +1,5 @@
+import os
+import re
 from django.contrib import auth
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -5,6 +7,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, Http404
 from django.urls import reverse
+
+from askme_permyakov import settings
 from askme_permyakov.forms import LoginForm, RegistrationForm
 from .models import *
 
@@ -101,6 +105,40 @@ def register_user(request):
 
 @login_required(login_url='/login/')
 def user_page(request):
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        user = User.objects.get(id=user_id)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        avatar = request.FILES.get('avatar')
+
+        user.username = username
+        user.email = email
+        user.first_name = first_name
+        user.last_name = last_name
+        if avatar:
+            filename2 = avatar.name
+            extension = re.findall(r'\.([^.]+)$', filename2)
+            filename: str
+            if extension:
+                author = Author.objects.get(user_id=user_id)
+                filename = f'avatar_{user.id}.{extension[0]}'
+                filepath = os.path.join(settings.STATIC_URL, 'img', filename)
+                author.avatar = filepath
+                print("=======>", author.avatar)
+                # Сохраняем файл
+                with open(filepath, 'wb') as f:
+                    for chunk in avatar.chunks():
+                        f.write(chunk)
+
+                author.save()
+
+        user.save()
+
+        return redirect(reverse('user_page'))
+
     return render(request, 'user_page.html')
 
 
@@ -150,7 +188,3 @@ def delete_respond(request):
 def users(request):
     all_users = Author.objects.all()
     return render(request, 'user.html', {'users': all_users})
-
-
-# def user_view(request):
-#     return render(request, 'temp.html')
