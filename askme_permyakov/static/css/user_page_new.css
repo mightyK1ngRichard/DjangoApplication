@@ -101,6 +101,7 @@
 
 .tag {
     background-color: rgba(255, 255, 255, .35);
+    color: black;
     border-radius: 20px;
     font-size: 11px;
     margin-right: 8px;
