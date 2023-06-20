@@ -16,14 +16,6 @@
     margin-bottom: 20px;
 }
 
-.question-logo {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
-
 .author-name {
     font-size: 18px;
     font-weight: bold;

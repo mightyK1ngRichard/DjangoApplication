@@ -9,7 +9,11 @@
             <div class="row">
                 <div class="col-11">
                     <div class="author-info">
-                        <img src="/{{ post.author.avatar }}" class="question-logo" alt="logo">
+                        <img src="/{{ post.author.avatar }}" class="question-logo" style="height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;" alt="logo">
                         <span class="author-name">{{ post.author.user.username }}</span>
                     </div>
 

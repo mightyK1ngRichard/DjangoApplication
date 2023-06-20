@@ -134,3 +134,9 @@ def delete_respond(request):
         Response.objects.get(pk=respond_id).delete()
 
         return redirect(reverse('question', args=[post_id]))
+
+
+def users(request):
+    all_users = Author.objects.all()
+    print(all_users)
+    return render(request, 'user.html', {'users': all_users})

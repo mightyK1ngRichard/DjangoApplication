@@ -10,6 +10,14 @@ body {
     margin-bottom: 20px;
 }
 
+/*.question-logo {*/
+/*    height: 50px;*/
+/*    width: 50px;*/
+/*    border-radius: 50%;*/
+/*    object-fit: cover;*/
+/*    margin-right: 10px;*/
+/*}*/
+
 .event h3 {
     font-size: 18px;
     margin-bottom: 10px;

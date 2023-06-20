@@ -1,43 +1,39 @@
 body {
-    background-color: #B3E5FC;
-    border-radius: 10px;
+    background-color: #000;
+    color: #fff;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.bg-primary {
+    background-color: #007bff;
 }
 
 .card {
-    width: 800px;
-    border: none;
-    border-radius: 10px;
-    background-color: #fff;
+    background-color: #222;
+    color: #fff;
+}
+
+.rounded {
+    border-radius: 0.25rem;
 }
 
 .stats {
-    background: #f2f5f8 !important;
-    color: #000 !important;
+    background-color: #007bff;
 }
 
-.articles {
-    font-size: 10px;
-    color: #a1aab9;
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
 }
 
-.number1 {
-    font-weight: 500;
-}
-
-.followers {
-    font-size: 10px;
-    color: #a1aab9;
-}
-
-.number2 {
-    font-weight: 500;
-}
-
-.rating {
-    font-size: 10px;
-    color: #a1aab9;
-}
-
-.number3 {
-    font-weight: 500;
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
 }
