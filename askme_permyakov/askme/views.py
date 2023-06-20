@@ -47,7 +47,7 @@ def index(request):
     # posts = Posts.objects.all().order_by('-date_public')[offset:offset+10]
 
     posts = Posts.objects.all().order_by('-date_public')
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, 5)
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'index.html', {'posts': page_obj})
