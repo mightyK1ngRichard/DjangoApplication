@@ -18,8 +18,10 @@
                 </div>
                 <div class="container-fluid py-2">
                     <h4 class="display-5 fw-bold">{{ post.title }}</h4>
-                    <pre>{{ post.content }}</pre>
-
+                <link rel="stylesheet" href="{% static 'css/codehilite.css' %}">
+                    <pre class="codehilite">
+                        {{ post.content|markdown|safe }}
+                    </pre>
                     {# == Проверка на авторизацию == #}
                     {% if user.is_authenticated %}
                         {% isAuthor user.id post.author.id as isAuthorOfPost %}
@@ -104,7 +106,8 @@
                     <textarea id="my-textarea" name="content" rows="5"></textarea>
                     <div style="display: flex; justify-content: space-between;">
                         <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" id="cancel-respond"
-                                type="button">Отменить</button>
+                                type="button">Отменить
+                        </button>
                         <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2"
                                 id="send-respond">
                             Отправить

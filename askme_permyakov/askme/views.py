@@ -7,7 +7,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.http import HttpResponseNotFound, Http404
 from django.urls import reverse
-
 from askme_permyakov import settings
 from askme_permyakov.forms import LoginForm, RegistrationForm
 from .models import *
