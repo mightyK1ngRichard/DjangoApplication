@@ -1,0 +1,50 @@
+{% extends 'inc/header.html' %}
+{% load static %}
+{% load askme_tags %}
+{% block content %}
+    {% get_author_info user_id as author %}
+    <div class="container">
+        <div class row>
+            <div class="col-sm">
+                {# ======== Карточка юзера ========= #}
+                <link href="{% static "css/user_page_new.css" %}" rel="stylesheet">
+                <div class="container2">
+                    <div class="header-container">
+                        <img src="/{{ author.author.avatar }}" alt="" class="header-image"/>
+                        <div class="header">
+                            <h1 class="main-heading">{{ user.first_name }} {{ user.last_name }}</h1>
+                            <span class="tag">{{ user.username }}</span>
+                            <span class="tag">{{ user.email }}</span>
+                            <div class="stats">
+                                {#        <span class="stat-module">#}
+                                {#          Movies <span class="stat-number">56</span>#}
+                                {#        </span>#}
+                                {#                    <span class="stat-module">#}
+                                {#          Plays <span class="stat-number">29</span>#}
+                                {#        </span>#}
+                                {#                    <span class="stat-module">#}
+                                {#          Musicals <span class="stat-number">11</span>#}
+                                {#        </span>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overlay-header"></div>
+                    <div class="body">
+                        <img src="/{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
+                        <span class="body-stats">Постов: <span>{{ author.count_post }}</span></span>
+                        <span class="body-stats">Ответов: <span>{{ author.count_responses }}</span></span>
+                        <div class="u-clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ====== Конец карточка юзера ====== #}
+    <link href="{% static "css/my.css" %}" rel="stylesheet">
+    <h3 style="display: flex; justify-content: space-around; margin-top: 20px; margin-bottom: 20px">Посты пользователя:</h3>
+    {% for post in posts %}
+        {% include "question-card.html" %}
+    {% endfor %}
+
+{% endblock content %}

@@ -3,6 +3,7 @@
 {% load askme_tags %}
 
 {% block content %}
+    {% get_responses_under_post post.id as responses %}
     <div class="container">
         <div class="event">
             <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
@@ -16,27 +17,38 @@
                     </div>
                 </div>
                 <div class="container-fluid py-2">
-                    {% isAuthor user.id post.author.id as isAuthorOfPost %}
                     <h4 class="display-5 fw-bold">{{ post.title }}</h4>
-                    <pre><p>{{ post.content }}</p></pre>
-                    {% if isAuthorOfPost %}
-                        <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
-                              action="{% url 'delete_post' %}">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="submit"
-                                    name="post_id" id="post"
-                                    value="{{ post.id }}"
-                                    onclick="return confirmDelete();">Удалить
+                    <pre>{{ post.content }}</pre>
+
+                    {# == Проверка на авторизацию == #}
+                    {% if user.is_authenticated %}
+                        {% isAuthor user.id post.author.id as isAuthorOfPost %}
+                        {% if isAuthorOfPost %}
+                            <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
+                                  action="{% url 'delete_post' %}">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="submit"
+                                        name="post_id" id="post"
+                                        value="{{ post.id }}"
+                                        onclick="return confirmDelete();">Удалить
+                                </button>
+                            </form>
+                        {% else %}
+                            <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="button"
+                                    id="respond">Ответить
+                            </button>
+                        {% endif %}
+
+                    {% else %}
+                        <form action="{% url 'login' %}">
+                            <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="submit">
+                                Ответить
                             </button>
                         </form>
-                    {% else %}
-                        <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="button"
-                                id="respond">Ответить
-                        </button>
                     {% endif %}
+
                     <div class="row">
                         {% get_tags post.id as tags %}
-                        {% get_responses_under_post post.id as responses %}
                         <div class="col-2">
                             Ответы ({{ responses.count }})
                         </div>
@@ -47,6 +59,7 @@
                             {% endfor %}
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -80,6 +93,8 @@
                     return confirmation;
                 }
             </script>
+
+            {# Поле для ввода ответа #}
             <div hidden class="text-field-for-respond" id="myElement" style="margin-bottom: 100px">
                 <div>
                     <label for="my-textarea">Введите ответ на вопрос:</label>
@@ -89,9 +104,7 @@
                     <textarea id="my-textarea" name="content" rows="5"></textarea>
                     <div style="display: flex; justify-content: space-between;">
                         <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" id="cancel-respond"
-                                type="button">
-                            Отменить
-                        </button>
+                                type="button">Отменить</button>
                         <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2"
                                 id="send-respond">
                             Отправить
@@ -99,6 +112,7 @@
                     </div>
                 </form>
             </div>
+
             <div hidden class="resp-block" id="block-responses" style="margin-bottom: 100px">
                 <h3>Ответы:</h3>
                 {% if responses.count == 0 %}
@@ -111,4 +125,6 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" src={% static "js/myscript.js" %}></script>
 {% endblock content %}

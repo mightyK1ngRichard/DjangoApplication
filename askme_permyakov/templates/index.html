@@ -1,78 +1,36 @@
 {% extends "inc/base.html" %}
+{% load static %}
 
 {% block content %}
     {% for post in posts %}
         {% include "question-card.html" %}
     {% endfor %}
 
-    <style>
-    .list-pages {
-        text-align: center;
-        margin: 0 0 20px 0;
-    }
-
-    .list-pages ul {
-        margin: 20px 0 0 0;
-        padding: 0 0 50px;
-        list-style: none;
-    }
-
-    .list-pages ul li {
-        display: inline-block;
-        margin: 0 5px 0 0;
-    }
-
-    .list-pages a {
-        color: #ffffff;
-        font-size: 30px;
-        text-decoration: none;
-        display: inline-block;
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        background-color: #333;
-        border-radius: 50%;
-        transition: background-color 0.3s ease;
-    }
-
-    .list-pages a:hover {
-        background-color: #555;
-    }
-
-    .list-pages .page-num-selected {
-        color: #ffffff;
-        font-size: 30px;
-        width: 60px;
-        height: 60px;
-        {#background-color: #555;#}
-    }
-</style>
-
-<nav class="list-pages">
-    <ul>
-        {% if posts.has_previous %}
-            <li class="page-num">
-                <a href="?page={{ posts.previous_page_number }}">←</a>
-            </li>
-        {% endif %}
-
-        {% for p in posts.paginator.page_range %}
-            {% if posts.number == p %}
-                <li class="page-num page-num-selected">{{ p }}</li>
-            {% elif p >= posts.number|add:-2 and p <= posts.number|add:2 %}
+    <link href="{% static "css/paginator.css" %}" rel="stylesheet">
+    <nav class="list-pages">
+        <ul>
+            {% if posts.has_previous %}
                 <li class="page-num">
-                    <a href="?page={{ p }}">{{ p }}</a>
+                    <a href="?page={{ posts.previous_page_number }}">←</a>
                 </li>
             {% endif %}
-        {% endfor %}
 
-        {% if posts.has_next %}
-            <li class="page-num">
-                <a href="?page={{ posts.next_page_number }}">→</a>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
+            {% for p in posts.paginator.page_range %}
+                {% if posts.number == p %}
+                    <li class="page-num page-num-selected">{{ p }}</li>
+                {% elif p >= posts.number|add:-2 and p <= posts.number|add:2 %}
+                    <li class="page-num">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if posts.has_next %}
+                <li class="page-num">
+                    <a href="?page={{ posts.next_page_number }}">→</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 
 {% endblock content %}

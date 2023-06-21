@@ -1,8 +1,6 @@
 const btnRespond = document.getElementById('respond');
 const respondField = document.getElementById('myElement');
 const cancelRespond = document.getElementById('cancel-respond');
-const btnSendRespond = document.getElementById('send-respond');
-const inputField = document.getElementById('my-textarea');
 const blockResponses = document.getElementById('block-responses');
 blockResponses.hidden = false;
 

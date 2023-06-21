@@ -1,0 +1,40 @@
+.list-pages {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.list-pages ul {
+    margin: 20px 0 0 0;
+    padding: 0 0 50px;
+    list-style: none;
+}
+
+.list-pages ul li {
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.list-pages a {
+    color: #ffffff;
+    font-size: 30px;
+    text-decoration: none;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background-color: #333;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.list-pages a:hover {
+    background-color: #555;
+}
+
+.list-pages .page-num-selected {
+    color: #ffffff;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+}

@@ -86,6 +86,7 @@ def post_with_tag(request, tag_id):
 def register_user(request):
     if request.method == 'GET':
         user_form = RegistrationForm()
+
     elif request.method == 'POST':
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
@@ -96,9 +97,9 @@ def register_user(request):
                 user_profile.save()
                 return redirect(reverse('index'))
 
-            user_form.add_error(None, 'User saving error!')
+            user_form.add_error(None, 'user saving error!')
 
-    return render(request, 'register_user.html', {
+    return render(request, 'user/register_user.html', {
         'form': user_form
     })
 
@@ -127,7 +128,6 @@ def user_page(request):
                 filename = f'avatar_{user.id}.{extension[0]}'
                 filepath = os.path.join(settings.STATIC_URL, 'img', filename)
                 author.avatar = filepath
-                print("=======>", author.avatar)
                 # Сохраняем файл
                 with open(filepath, 'wb') as f:
                     for chunk in avatar.chunks():
@@ -139,7 +139,13 @@ def user_page(request):
 
         return redirect(reverse('user_page'))
 
-    return render(request, 'user_page.html')
+    return render(request, 'user/user_page.html')
+
+
+def user_page_by_id(request, user_id):
+    author = Author.objects.get(user_id=user_id)
+    posts = Posts.objects.all().filter(author_id=author.id)
+    return render(request, 'user/user_page_by_id.html', {'user_id': user_id, 'posts': posts})
 
 
 def logout_user(request):
@@ -147,7 +153,6 @@ def logout_user(request):
     return redirect(reverse('index'))
 
 
-@login_required(login_url='/login/')
 def question(request, current_id):
     if request.method == 'POST':
         respond_content = request.POST.get('content')
@@ -187,4 +192,4 @@ def delete_respond(request):
 
 def users(request):
     all_users = Author.objects.all()
-    return render(request, 'user.html', {'users': all_users})
+    return render(request, 'user/user.html', {'users': all_users})

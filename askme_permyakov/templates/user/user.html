@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+
     <body>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <style>
@@ -70,6 +71,7 @@
             right: 30px;
             text-align: right;
         }
+
         .single_advisor_profile:hover .single_advisor_details_info,
         .single_advisor_profile:focus .single_advisor_details_info {
             background-color: #070a57;
@@ -80,7 +82,7 @@
             background-color: #ffffff;
         }
 
-         .single_advisor_profile .single_advisor_details_info {
+        .single_advisor_profile .single_advisor_details_info {
             position: relative;
             z-index: 1;
             padding: 30px;
@@ -103,6 +105,7 @@
             top: 12px;
             right: 30px;
         }
+
         .single_advisor_profile:hover .advisor_thumb::after,
         .single_advisor_profile:focus .advisor_thumb::after {
             background-color: #070a57;
@@ -122,7 +125,6 @@
         .single_advisor_profile .advisor_thumb .social-info a:last-child {
             padding-right: 0;
         }
-
 
 
         .single_advisor_profile .single_advisor_details_info h6 {
@@ -149,7 +151,6 @@
                 font-size: 12px;
             }
         }
-
 
 
         .single_advisor_profile:hover .advisor_thumb .social-info a,
@@ -187,7 +188,7 @@
         </div>
         <div class="row">
             {% for user in users %}
-                {% include "user_card.html" %}
+                {% include "user/user_card.html" %}
             {% endfor %}
         </div>
     </div>
