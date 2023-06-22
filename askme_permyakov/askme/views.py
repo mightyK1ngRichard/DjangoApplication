@@ -112,15 +112,19 @@ def user_page(request):
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        avatar = request.FILES.get('avatar')
-
         user.username = username
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
+        user.save()
+        print('=========> START')
+        avatar = request.FILES.get('avatar')
+        print('=========> END')
         if avatar:
             filename2 = avatar.name
+            print('===filename2===>', filename2)
             extension = re.findall(r'\.([^.]+)$', filename2)
+            print('===extension===>', extension)
             filename: str
             if extension:
                 author = Author.objects.get(user_id=user_id)
@@ -133,8 +137,6 @@ def user_page(request):
                         f.write(chunk)
 
                 author.save()
-
-        user.save()
 
         return redirect(reverse('user_page'))
 
