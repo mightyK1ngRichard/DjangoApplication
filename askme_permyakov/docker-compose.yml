@@ -5,10 +5,10 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: django-app
-#    command: python manage.py runserver 0.0.0.0:8000
-    command: sh -c "gunicorn --bind 0.0.0.0:8000 askme_permyakov.wsgi" # Проблема с css js файлами...
+    command: python manage.py runserver 0.0.0.0:8000
+#    command: sh -c "gunicorn --bind 0.0.0.0:8000 askme_permyakov.wsgi" # Проблема с css js файлами...
     ports:
-      - "8000:8000"
+      - "80:8000"
     volumes:
       - static_data:/static
 
