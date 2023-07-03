@@ -1,0 +1,60 @@
+#StackOverflow_emblem {
+    color: #ffc107!important;
+    font-size: 80px;
+    text-align: center;
+    padding-top: 10%;
+}
+
+.animation {
+    position: relative;
+    display: inline-block;
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.changingWord {
+    opacity: 0;
+    transition: opacity 0.5s;
+    color: #b6004f !important;
+}
+
+.changingWord.visible {
+    opacity: 1;
+}
+
+.container2 {
+    display: flex;
+    justify-content: space-between;
+    width: 800px;
+    margin: 0 auto;
+    padding-top: 5%;
+}
+
+.block {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    text-align: center;
+    font-size: 20px;
+}
+
+#registration_field {
+    width: 100%;
+    text-align: center;
+    padding-top: 3%;
+}
+
+#btn_reg {
+    background-color: #a1053e !important;
+    border: none!important;
+    font-size: 20px;
+    border-radius: 20px;
+    color: white;
+    padding: 10px;
+}
+
+#btn_reg:hover {
+    background-color: rgb(246, 10, 59) !important;
+}
