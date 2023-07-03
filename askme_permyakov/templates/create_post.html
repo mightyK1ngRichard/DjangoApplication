@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="new-question-page left-column mt-5 col-9">
+        <title>Новый пост</title>
         <div class="row">
             <div class="col-1"></div>
             <div class="col-11">
@@ -11,11 +12,11 @@
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="title" class="form-label">Заголовок</label>
-                        <input name="title" type="text" class="form-control" id="title" style="background-color: #000000;" placeholder="Введите заголовок">
+                        <input name="title" type="text" class="form-control" id="title" style="background-color: #000000; color: white;" placeholder="Введите заголовок">
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Текст вопроса</label>
-                        <textarea name="text" class="form-control" style="background-color: #000000;" id="text" rows="3"
+                        <textarea name="text" class="form-control" style="background-color: #000000; color: white;" id="text" rows="3"
                                   placeholder="Содержимое"></textarea>
                     </div>
 
@@ -27,6 +28,7 @@
                             {% endfor %}
                         </select>
                     </div>
+
 
                     <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2">Отправить
                     </button>

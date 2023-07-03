@@ -4,6 +4,7 @@
 
 {% block content %}
     {% get_responses_under_post post.id as responses %}
+    <title>Пост №{{ post.id }}</title>
     <div class="container">
         <div class="event">
             <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
@@ -18,7 +19,7 @@
                 </div>
                 <div class="container-fluid py-2">
                     <h4 class="display-5 fw-bold">{{ post.title }}</h4>
-                    <link rel="stylesheet" href="{% static 'css/codehilite.css' %}">
+                <link rel="stylesheet" href="{% static 'css/codehilite.css' %}">
                     <pre class="codehilite">
                         {{ post.content|markdown|safe }}
                     </pre>
@@ -65,9 +66,11 @@
                 </div>
             </div>
         </div>
-        <link rel="stylesheet" href="{% static 'css/input.css' %}">
+
         <div>
+            <link rel="stylesheet" href="{% static 'css/input.css' %}">
             <style>
+                /* Темная тема для поля ввода текста */
                 .text-field-for-respond {
                     color: #fff;
                 }
@@ -85,6 +88,7 @@
                     color: #fff;
                     border-color: #555;
                 }
+
             </style>
             <script>
                 function confirmDelete() {

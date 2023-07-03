@@ -5,13 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: django-app
-    command: python manage.py runserver 0.0.0.0:8000
-#    command: sh -c "gunicorn --bind 0.0.0.0:8000 askme_permyakov.wsgi" # Проблема с css js файлами...
+    command: python manage.py runserver 0.0.0.0:8001
+#    command: sh -c "gunicorn --bind 0.0.0.0:8000 askme_permyakov.wsgi" # Проблема с css js файлами. А точнее с upload image.
     ports:
-      - "80:8000"
+      - "80:8001"
     volumes:
       - static_data:/static
 
+# Думаю, не надо, потому что лучше на хосте скачать локальный nginx.
 #  nginx:
 #    image: nginx:1.19.8-alpine
 #    depends_on:

@@ -72,3 +72,27 @@ body {
     margin-bottom: 5px;
     color: #ffffff;
 }
+
+header ul li a {
+    transition: transform .6s ease!important;
+}
+
+header ul li a:hover {
+    color: #eb5959!important;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+#StackOverflow_button {
+    color: #ffc107!important;
+}
+
+#searching_text {
+    width: 300px!important;
+}
+
+header {
+    border-bottom: 1px solid gray;
+}
+
+

@@ -30,8 +30,14 @@
                     <div class="question-text">
                         {{ post.content|truncatechars:400 }}
                     </div>
-                    <div class="col-2">
-                        <p class="category">Ответы ({{ responses.count }})</p>
+                    <div class="col-2" style="justify-content: space-between; display: flex; width: 100%;">
+                        <p class="category" style="">Ответы ({{ responses.count }})</p>
+                        <style>
+                            #btn_a:hover {
+                                text-decoration: underline;
+                            }
+                        </style>
+                        <a id="btn_a" href="/question/{{ post.id }}" style="color: #5c91e0;}">Подробнее</a>
                     </div>
                 </div>
             </div>
