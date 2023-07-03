@@ -15,7 +15,6 @@ from .models import *
 def index(request):
     if request.method == 'POST':
         data = request.POST.get('searching_text')
-
         # Если data is None, значит форма пришла из создания поста.
         if data is None:
             user_title = request.POST.get('title')
@@ -73,7 +72,6 @@ def login_user(request):
                 login(request, user)
                 return redirect(reverse('index'))
             login_form.add_error(None, 'Invalid username or password')
-
     return render(request, 'login.html', {'form': login_form})
 
 
@@ -159,7 +157,9 @@ def question(request, current_id):
         respond_content = request.POST.get('content')
         if respond_content != '':
             author = Author.objects.get(user_id=request.user.id)
+            print(author, request.user.id)
             new_respond = Response.objects.create(content=respond_content, author_id=author.id)
+            print(new_respond, respond_content)
             ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
 
         return redirect(reverse('question', args=[current_id]))
@@ -194,3 +194,6 @@ def delete_respond(request):
 def users(request):
     all_users = Author.objects.all()
     return render(request, 'user/user.html', {'users': all_users})
+
+def main(request):
+    return render(request, 'main.html')
