@@ -59,6 +59,8 @@ def image(request):
     image_name = request.GET.get('image_name')
     if image_name:
         _, file_extension = os.path.splitext(image_name)
+
+        # TODO: На локалке подменить.
         # image_path = os.path.join('/', 'Users', 'dmitriy', 'Django', 'img', image_name)
         image_path = os.path.join('/', 'root', 'img', image_name)
 
@@ -133,20 +135,20 @@ def user_page(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
-        print('=========> START')
         avatar = request.FILES.get('avatar')
-        print('=========> END')
         if avatar:
             filename2 = avatar.name
-            print('===filename2===>', filename2)
             extension = re.findall(r'\.([^.]+)$', filename2)
-            print('===extension===>', extension)
             filename: str
             if extension:
                 author = Author.objects.get(user_id=user_id)
                 filename = f'avatar_{user.id}.{extension[0]}'
-                filepath = os.path.join(settings.STATIC_URL, 'img', filename)
-                author.avatar = filepath
+
+                # TODO: На локалке подменить.
+                filepath = os.path.join('/', 'root', 'img', filename)
+
+                # filepath = os.path.join(settings.STATIC_URL, 'img', filename)
+                author.avatar = filename
                 # Сохраняем файл
                 with open(filepath, 'wb') as f:
                     for chunk in avatar.chunks():
