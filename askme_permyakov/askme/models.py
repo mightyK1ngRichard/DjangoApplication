@@ -11,7 +11,7 @@ class Tag(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='static/img', default='static/img/default.webp')
+    avatar = models.ImageField(upload_to='', default='default.jpg')
 
     def __str__(self):
         return self.user.username
