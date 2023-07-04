@@ -62,8 +62,8 @@ def image(request):
 
         # TODO: На локалке подменить.
         # image_path = os.path.join('/', 'Users', 'dmitriy', 'Django', 'img', image_name)
-        image_path = os.path.join('/', 'root', 'img', image_name)
-
+        # image_path = os.path.join('/', 'root', 'img', image_name)
+        image_path = os.path.join('static', 'img', image_name)
         if os.path.exists(image_path):
             with open(image_path, 'rb') as image_file:
                 response = HttpResponse(content_type=f'image/{file_extension}')
@@ -145,9 +145,10 @@ def user_page(request):
                 filename = f'avatar_{user.id}.{extension[0]}'
 
                 # TODO: На локалке подменить.
-                filepath = os.path.join('/', 'root', 'img', filename)
-
+                # filepath = os.path.join('/', 'root', 'img', filename)
+                filepath = os.path.join('static', 'img', filename)
                 # filepath = os.path.join(settings.STATIC_URL, 'img', filename)
+
                 author.avatar = filename
                 # Сохраняем файл
                 with open(filepath, 'wb') as f:
