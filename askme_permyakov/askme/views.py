@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from django.http import HttpResponseNotFound, Http404
+from django.http import HttpResponseNotFound, Http404, HttpResponse
 from django.urls import reverse
 from askme_permyakov import settings
 from askme_permyakov.forms import LoginForm, RegistrationForm
@@ -53,6 +53,24 @@ def index(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'index.html', {'posts': page_obj})
+
+
+def image(request):
+    image_name = request.GET.get('image_name')
+    if image_name:
+        _, file_extension = os.path.splitext(image_name)
+        # image_path = os.path.join('/', 'Users', 'dmitriy', 'Django', 'img', image_name)
+        image_path = os.path.join('/', 'root', 'img', image_name)
+
+        if os.path.exists(image_path):
+            with open(image_path, 'rb') as image_file:
+                response = HttpResponse(content_type=f'image/{file_extension}')
+                response['Content-Disposition'] = f'attachment; filename="{image_name}"'
+                response.write(image_file.read())
+                response.status_code = 400
+                return response
+
+    return HttpResponse('Image not found', status=404)
 
 
 def create_post(request):
@@ -194,6 +212,7 @@ def delete_respond(request):
 def users(request):
     all_users = Author.objects.all()
     return render(request, 'user/user.html', {'users': all_users})
+
 
 def main(request):
     return render(request, 'main.html')

@@ -10,7 +10,7 @@
                 <link href="{% static "css/user_page_new.css" %}" rel="stylesheet">
                 <div class="container2">
                     <div class="header-container">
-                        <img src="/{{ author.author.avatar }}" alt="" class="header-image"/>
+                        <img src="{% url 'image' %}?image_name={{ author.author.avatar }}" alt="" class="header-image"/>
                         <div class="header">
                             <h1 class="main-heading">{{ author.author.user.first_name }} {{ author.author.user.last_name }}</h1>
                             <span class="tag">{{ author.author.user.username }}</span>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="overlay-header"></div>
                     <div class="body">
-                        <img src="/{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
+                        <img src="{% url 'image' %}?image_name={{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
                         <span class="body-stats">Постов: <span>{{ author.count_post }}</span></span>
                         <span class="body-stats">Ответов: <span>{{ author.count_responses }}</span></span>
                         <div class="u-clearfix"></div>

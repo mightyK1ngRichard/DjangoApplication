@@ -10,7 +10,7 @@
             <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <img src="/{{ post.author.avatar }}" alt="avatar"
+                        <img src="{% url 'image' %}?image_name={{ post.author.avatar }}" alt="avatar"
                              style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;">
                     </div>
                     <div class="col-auto">
