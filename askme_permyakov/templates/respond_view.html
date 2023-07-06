@@ -10,7 +10,7 @@
 
     <div class="col-md-12" id="respond_view">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <img id="logo-in-respond" src="{% url 'image' %}?image_name={{ respond.response.author.avatar }}"
+            <img id="logo-in-respond" src="/{{ respond.response.author.avatar }}"
                  style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; margin-left:  10px"
                  alt="avatar"/>
             <div class="col p-4 d-flex flex-column position-static">
@@ -18,6 +18,7 @@
                         style="color: #0dcaf0">{{ respond.response.author.user.username }}</strong></a>
                 <div class="mb-1 text-body-secondary" style="color: #525252">{{ respond.response.date_response }}</div>
                 <p class="card-text mb-auto">{{ respond.response.content | markdown | safe }}</p>
+                {% include 'add_like_answer.html' with blog_post_id=respond.response.id %}
             </div>
 
             {% if user.is_authenticated %}

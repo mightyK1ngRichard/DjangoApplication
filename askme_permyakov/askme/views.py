@@ -5,11 +5,13 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from django.http import HttpResponseNotFound, Http404, HttpResponse
+from django.http import HttpResponseNotFound, Http404
 from django.urls import reverse
 from askme_permyakov import settings
 from askme_permyakov.forms import LoginForm, RegistrationForm
 from .models import *
+from django.shortcuts import redirect
+from django.views.generic import View
 
 
 def index(request):
@@ -53,26 +55,6 @@ def index(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'index.html', {'posts': page_obj})
-
-
-def image(request):
-    image_name = request.GET.get('image_name')
-    if image_name:
-        _, file_extension = os.path.splitext(image_name)
-
-        # TODO: На локалке подменить.
-        # image_path = os.path.join('/', 'Users', 'dmitriy', 'Django', 'img', image_name)
-        # image_path = os.path.join('/', 'root', 'img', image_name)
-        image_path = os.path.join('static', 'img', image_name)
-        if os.path.exists(image_path):
-            with open(image_path, 'rb') as image_file:
-                response = HttpResponse(content_type=f'image/{file_extension}')
-                response['Content-Disposition'] = f'attachment; filename="{image_name}"'
-                response.write(image_file.read())
-                response.status_code = 400
-                return response
-
-    return HttpResponse('Image not found', status=404)
 
 
 def create_post(request):
@@ -135,21 +117,20 @@ def user_page(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
+        print('=========> START')
         avatar = request.FILES.get('avatar')
+        print('=========> END')
         if avatar:
             filename2 = avatar.name
+            print('===filename2===>', filename2)
             extension = re.findall(r'\.([^.]+)$', filename2)
+            print('===extension===>', extension)
             filename: str
             if extension:
                 author = Author.objects.get(user_id=user_id)
                 filename = f'avatar_{user.id}.{extension[0]}'
-
-                # TODO: На локалке подменить.
-                # filepath = os.path.join('/', 'root', 'img', filename)
-                filepath = os.path.join('static', 'img', filename)
-                # filepath = os.path.join(settings.STATIC_URL, 'img', filename)
-
-                author.avatar = filename
+                filepath = os.path.join(settings.STATIC_URL, 'img', filename)
+                author.avatar = filepath
                 # Сохраняем файл
                 with open(filepath, 'wb') as f:
                     for chunk in avatar.chunks():
@@ -178,9 +159,7 @@ def question(request, current_id):
         respond_content = request.POST.get('content')
         if respond_content != '':
             author = Author.objects.get(user_id=request.user.id)
-            print(author, request.user.id)
             new_respond = Response.objects.create(content=respond_content, author_id=author.id)
-            print(new_respond, respond_content)
             ResponsesUnderPost.objects.create(post_id=current_id, response_id=new_respond.id)
 
         return redirect(reverse('question', args=[current_id]))
@@ -216,6 +195,59 @@ def users(request):
     all_users = Author.objects.all()
     return render(request, 'user/user.html', {'users': all_users})
 
-
 def main(request):
     return render(request, 'main.html')
+
+class AddLikeView(View):
+    def post(self, request, *ags, **kwargs):
+        blog_post_id = request.POST.get('blog_post_id')
+        user_id = request.POST.get('user_id')
+        url_from = request.POST.get('url_from')
+
+        user_inst = Author.objects.get(id=user_id)
+        blog_post_inst = Posts.objects.get(id=blog_post_id)
+
+        try:
+            blog_like_inst = Posts.objects.get(blog_post=blog_post_inst, liked_by=user_inst)
+        except Exception as e:
+            blog_like = BlogLikes(blog_post=blog_post_inst, liked_by=user_inst, like=True)
+            blog_like.save()
+            print("id вот", blog_like.id)
+        return redirect(url_from)
+
+
+class RemoveLikeView(View):
+    def post(self, request, *args, **kwargs):
+        blog_likes_id = request.POST.get('blog_likes_id')
+        url_from = request.POST.get('url_from')
+        blog_like = BlogLikes.objects.get(id=blog_likes_id)
+        blog_like.delete()
+
+        return redirect(url_from)
+
+
+class AddLikeAnswerView(View):
+    def post(self, request, *ags, **kwargs):
+        blog_post_id = request.POST.get('blog_post_id')
+        user_id = request.POST.get('user_id')
+        url_from = request.POST.get('url_from')
+
+        user_inst = Author.objects.get(id=user_id)
+        blog_post_inst = Response.objects.get(id=blog_post_id)
+
+        try:
+            blog_like_inst = Response.objects.get(blog_post=blog_post_inst, liked_by=user_inst)
+        except Exception as e:
+            blog_like = AnswerLikes(blog_post=blog_post_inst, liked_by=user_inst, like=True)
+            blog_like.save()
+        return redirect(url_from)
+
+
+class RemoveLikeAnswerView(View):
+    def post(self, request, *args, **kwargs):
+        blog_likes_id = request.POST.get('blog_likes_id')
+        url_from = request.POST.get('url_from')
+        blog_like = AnswerLikes.objects.get(id=blog_likes_id)
+        blog_like.delete()
+
+        return redirect(url_from)

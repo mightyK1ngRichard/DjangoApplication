@@ -131,7 +131,7 @@
     height: 100px;
     margin: -50px 0 0 -25%;
     transform: rotate(-10deg);
-    width: 150%;
+    width: 250%;
     z-index: 0;
 }
 
@@ -163,7 +163,7 @@
     height: 40px;
     position: absolute;
     right: 15px;
-    top: -97px;
+    top: -80px;
     width: 40px;
 }
 
@@ -310,4 +310,8 @@ input[type="submit"] {
     color: #fff;
     border: none;
     cursor: pointer;
+}
+
+.container_main {
+    padding-top: 50px;
 }

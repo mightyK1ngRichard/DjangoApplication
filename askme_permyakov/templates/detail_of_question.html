@@ -10,15 +10,16 @@
             <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <img src="{% url 'image' %}?image_name={{ post.author.avatar }}" alt="avatar"
+                        <img src="/{{ post.author.avatar }}" alt="avatar"
                              style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;">
                     </div>
                     <div class="col-auto">
                         <h6 class="mb-0">{{ post.author.user.username }}</h6>
+<!--                        <h1>{{ post.likes_count }}</h1>-->
                     </div>
                 </div>
                 <div class="container-fluid py-2">
-                    <h4 class="display-5 fw-bold">{{ post.title }}</h4>
+                    <h4 style="border-bottom: 1px solid gray; padding-bottom: 10px;" class="display-5 fw-bold">{{ post.title }}</h4>
                 <link rel="stylesheet" href="{% static 'css/codehilite.css' %}">
                     <pre class="codehilite">
                         {{ post.content|markdown|safe }}
@@ -62,9 +63,11 @@
                             {% endfor %}
                         </div>
                     </div>
-
+                    <br>
+                    {% include 'add_like_blog.html' with blog_post_id=post.id %}
                 </div>
             </div>
+
         </div>
 
         <div>

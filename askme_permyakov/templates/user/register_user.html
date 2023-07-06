@@ -12,14 +12,41 @@
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
 </head>
 <body>
-<div class="container" style="width: 400px; margin-top: 100px; padding: 30px; border: #0d6efd">
+<div class="container" style="width: 400px; margin-top: 100px; border: #0d6efd">
     <form novalidate method="POST" action="{% url 'register' %}">
         {% csrf_token %}
         <div class="mb-3">
-            {% bootstrap_form form %}
+                {% bootstrap_form form %}
         </div>
-        <button type="submit" class="btn btn-primary">Регистрация</button>
+        <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-0 mt-2">Регистрация</button>
     </form>
 </div>
 </body>
+<style>
+    body {
+        background: black;
+    }
+
+    label {
+        color: white;
+    }
+
+    form {
+        padding: 20px;
+        background-color: rgba(24, 24, 26, 0.96);
+        border-radius: 20px;
+    }
+
+    .btn-form-submit {
+        font-size: 16px;
+    }
+
+    .form-text {
+        color: gray!important;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+</style>
 </html>

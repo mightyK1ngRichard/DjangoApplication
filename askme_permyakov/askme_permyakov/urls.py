@@ -14,13 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from askme import views
 
 urlpatterns = [
     path('', views.main, name='main'),
-    path('index/', views.index, name='index'),
-    path('img/', views.image, name='image'),
+    path('index', views.index, name='index'),
     path('users/', views.users, name='users'),
     path('user-page/', views.user_page, name='user_page'),
     path('user/<int:user_id>', views.user_page_by_id, name='user_page_by_id'),
@@ -33,4 +32,8 @@ urlpatterns = [
     path('question/<str:current_id>/', views.question, name='question'),
     path('tag/<str:tag_id>/', views.post_with_tag, name='post_with_tag'),
     path('admin/', admin.site.urls),
+    path('likes/add', views.AddLikeView.as_view(), name='likes-add'),
+    path('likes/remove', views.RemoveLikeView.as_view(), name='likes-remove'),
+    path('likes/addAnswer', views.AddLikeAnswerView.as_view(), name='likes-add-answer'),
+    path('likes/removeAnswer', views.RemoveLikeAnswerView.as_view(), name='likes-remove-answer'),
 ]

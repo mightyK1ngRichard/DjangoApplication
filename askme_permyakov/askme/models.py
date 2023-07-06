@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Tag(models.Model):
@@ -11,7 +12,7 @@ class Tag(models.Model):
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='', default='default.jpg')
+    avatar = models.ImageField(upload_to='static/img', default='static/img/default.webp')
 
     def __str__(self):
         return self.user.username
@@ -45,3 +46,31 @@ class Response(models.Model):
 class ResponsesUnderPost(models.Model):
     response = models.ForeignKey(Response, on_delete=models.CASCADE)
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+
+
+class BlogLikes(models.Model):
+    blog_post = models.ForeignKey(Posts, on_delete=models.CASCADE, null=True)
+    liked_by = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    like = models.BooleanField('Like', default=False)
+    created = models.DateTimeField('Дата и время', default=timezone.now)
+
+    def __str__(self):
+        return f'{self.liked_by}: {self.blog_post} {self.like}'
+
+    class Meta:
+        verbose_name = 'Blog Like'
+        verbose_name_plural = 'Blog Likes'
+
+
+class AnswerLikes(models.Model):
+    blog_post = models.ForeignKey(Response, on_delete=models.CASCADE, null=True)
+    liked_by = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
+    like = models.BooleanField('Like', default=False)
+    created = models.DateTimeField('Дата и время', default=timezone.now)
+
+    def __str__(self):
+        return f'{self.liked_by}: {self.blog_post} {self.like}'
+
+    class Meta:
+        verbose_name = 'Answer Like'
+        verbose_name_plural = 'Answer Likes'

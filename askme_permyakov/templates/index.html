@@ -6,6 +6,11 @@
         {% include "question-card.html" %}
     {% endfor %}
     <title>Посты</title>
+    <style>
+        .flex-shrink-0 {
+            padding-top: 20px;
+        }
+    </style>
     <link href="{% static "css/paginator.css" %}" rel="stylesheet">
     <nav class="list-pages">
         <ul>
@@ -32,5 +37,4 @@
             {% endif %}
         </ul>
     </nav>
-
 {% endblock content %}

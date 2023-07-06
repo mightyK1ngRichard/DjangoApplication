@@ -6,9 +6,9 @@
     <main class="container">
         <div class="event">
             <div class="row">
-                <div class="col-11">
+                <div style="width: 100%;" class="col-11">
                     <div class="author-info">
-                        <img src="{% url 'image' %}?image_name={{ post.author.avatar }}" class="question-logo" style="height: 50px;
+                        <img src="/{{ post.author.avatar }}" class="question-logo" style="height: 50px;
     width: 50px;
     border-radius: 50%;
     object-fit: cover;
@@ -16,7 +16,7 @@
                         <span class="author-name">{{ post.author.user.username }}</span>
                     </div>
 
-                    <h2><a href="/question/{{ post.id }}">{{ post.title }}</a></h2>
+                    <h2 style="border-bottom: 1px solid gray; padding-bottom: 10px;"><a href="/question/{{ post.id }}">{{ post.title }}</a></h2>
                     <div class="row">
                         {% get_tags post.id as tags %}
                         {% get_responses_under_post post.id as responses %}
@@ -37,6 +37,9 @@
                                 text-decoration: underline;
                             }
                         </style>
+                    </div>
+                    <div style="justify-content: space-between; display: flex; width: 100%;">
+                        {% include 'add_like_blog.html' with blog_post_id=post.id %}
                         <a id="btn_a" href="/question/{{ post.id }}" style="color: #5c91e0;}">Подробнее</a>
                     </div>
                 </div>

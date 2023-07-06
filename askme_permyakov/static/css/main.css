@@ -3,6 +3,8 @@
     font-size: 80px;
     text-align: center;
     padding-top: 10%;
+    text-shadow: 2px 2px 5px rgba(255, 193, 7, 0.6),
+                 -2px -2px 5px rgba(255, 193, 7, 0.6);
 }
 
 .animation {
@@ -57,4 +59,44 @@
 
 #btn_reg:hover {
     background-color: rgb(246, 10, 59) !important;
+}
+
+body  {
+    background-image: url("../img/nasa-Q1p7bh3SHj8-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    animation: slideBackground 14s infinite alternate;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+#btn_reg {
+    background-color: rgba(0, 0, 0, 0)!important;
+    border: 1px solid rgba(255, 193, 79, 0.8)!important;
+    color: rgba(255, 193, 79, 0.8);
+}
+
+#btn_reg:hover {
+    background-color: rgb(255, 193, 7, 0.9)!important;
+    color: white;
+}
+
+@keyframes slideBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: -50px 0px; /* Измените значение для желаемого эффекта движения */
+  }
+  100% {
+    background-position: 0 0;
+  }
 }

@@ -4,7 +4,7 @@
 {% block content %}
     <title>StackOverflow</title>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <div>
+    <div class style="margin-top: 0px!important">
         <h1 id="StackOverflow_emblem" href="{% url 'main' %}" class="nav-link px-2 text-secondary">StackOverflow</h1>
         <div class="animation">
             <span>У каждого</span>
@@ -17,8 +17,13 @@
             <div class="block">Самый популярный форум по программированию</div>
         </div>
         <div id="registration_field">
-            <a id="btn_reg" type="button" href="{% url 'register' %}" class="btn btn-warning">Присоединяйтесь!</a>
+            {% if user.is_authenticated %}
+                <a id="btn_reg" type="button" href="{% url 'create_post' %}" class="btn btn-warning">Задайте вопрос!</a>
+            {% else %}
+                <a id="btn_reg" type="button" href="{% url 'register' %}" class="btn btn-warning">Присоединяйтесь!</a>
+            {% endif %}
         </div>
+        <div style="flex-grow: 1"></div>
         <script src="{% static 'js/main.js' %}"></script>
     </div>
 {% endblock content %}

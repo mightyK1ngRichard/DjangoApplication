@@ -8,8 +8,8 @@ from askme.models import Author
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(min_length=4, widget=forms.PasswordInput)
+    username = forms.CharField(label='Имя пользователя')
+    password = forms.CharField(min_length=4, widget=forms.PasswordInput, label='Пароль')
 
     def clean_password(self):
         # Пример проверки пароля.
