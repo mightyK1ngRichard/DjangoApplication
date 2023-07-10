@@ -5,25 +5,31 @@
     <body>
     <main class="container">
         <div class="event">
-            <div class="row">
-                <div style="width: 100%;" class="col-11">
+            <div class="row" style="padding-right: 25px;">
+                <div style="width: 100%" class="col-11">
                     <div class="author-info">
-                        <img src="/{{ post.author.avatar }}" class="question-logo" style="height: 50px;
+                        <img src="{{ post.author.avatar }}" class="question-logo" style="height: 50px;
     width: 50px;
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;" alt="logo">
-                        <span class="author-name">{{ post.author.user.username }}</span>
+                        <a href="{% url 'user_page_by_id' user_id=post.author.user.id %}">
+                          <p style="color: #0dcaf0" class="d-inline-block mb-2 username-link">
+                            {{ post.author.user.username }}
+                          </p>
+                        </a>
+<!--                        <span class="author-name">{{ post.author.user.username }}</span>-->
                     </div>
 
-                    <h2 style="border-bottom: 1px solid gray; padding-bottom: 10px;"><a href="/question/{{ post.id }}">{{ post.title }}</a></h2>
+                    <h2><a href="/question/{{ post.id }}">{{ post.title }}</a></h2>
+                    <div class="mb-1 text-body-secondary" style="color: #525252; border-bottom: 1px solid gray;">{{ post.date_public }}</div>
                     <div class="row">
                         {% get_tags post.id as tags %}
                         {% get_responses_under_post post.id as responses %}
 
-                        <div class="col-2">
+                        <div class="col-2" style="width: 500px">
                             {% for tag in tags %}
-                                <a class="category" href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
+                                <a style="margin-right: 4px;" class="category" href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -31,7 +37,7 @@
                         {{ post.content|truncatechars:400 }}
                     </div>
                     <div class="col-2" style="justify-content: space-between; display: flex; width: 100%;">
-                        <p class="category" style="">Ответы ({{ responses.count }})</p>
+                        <p class="category" style="">Ответы ({% get_count_answer_full responses %})</p>
                         <style>
                             #btn_a:hover {
                                 text-decoration: underline;

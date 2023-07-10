@@ -26,6 +26,7 @@ urlpatterns = [
     path('new-post/', views.create_post, name='create_post'),
     path('delete-post/', views.delete_post, name='delete_post'),
     path('delete-respond/', views.delete_respond, name='delete_respond'),
+    path('delete-answer/', views.delete_answer, name='delete_answer'),
     path('login/', views.login_user, name='login'),
     path('signup/', views.register_user, name='register'),
     path('logout/', views.logout_user, name='logout'),
@@ -36,4 +37,9 @@ urlpatterns = [
     path('likes/remove', views.RemoveLikeView.as_view(), name='likes-remove'),
     path('likes/addAnswer', views.AddLikeAnswerView.as_view(), name='likes-add-answer'),
     path('likes/removeAnswer', views.RemoveLikeAnswerView.as_view(), name='likes-remove-answer'),
+    path('likes/addAnswerToResponse', views.AddLikeAnswerToResponseView.as_view(), name='likes-add-answer_to_response'),
+    path('likes/removeAnswerToResponse', views.RemoveLikeAnswerToResponseView.as_view(), name='likes-remove-answer_to_response'),
+    path('update-post/<str:current_id>/', views.update_post, name='update_post'),
+    path('delete-account/', views.delete_account, name='delete_account'),
+    path('change_password/', views.change_password, name='change_password'),
 ]

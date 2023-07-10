@@ -1,38 +1,34 @@
 {% extends 'inc/base.html' %}
-{% load static %}
 
 {% block content %}
-
-<head>
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">
-</head>
     <div class="new-question-page left-column mt-5 col-9 mx-auto">
-        <title>Новый пост</title>
+        <title>Редактировать пост</title>
         <div class="row">
             <div class="col-1"></div>
             <div class="col-11">
-                <h1>Новый пост</h1>
+                <h1>Редактировать пост</h1>
                 <hr/>
-                <form method="POST" action="{% url 'index' %}">
+                <form method="POST" action="">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="title" class="form-label">Заголовок</label>
-                        <input name="title" type="text" class="form-control" id="title" style="background-color: #000000; color: white;" placeholder="Введите заголовок">
+                        <input name="title" type="text" class="form-control" id="title" style="background-color: #000000; color: white;" placeholder="Введите заголовок" value="{{ post.title }}">
                     </div>
                     <div class="mb-3">
                         <label for="text" class="form-label">Текст вопроса</label>
                         <textarea name="text" class="form-control" style="background-color: #000000; color: white;" id="text" rows="5"
-                                  placeholder="Содержимое"></textarea>
+                                  placeholder="Содержимое">{{ post.content }}</textarea>
                     </div>
 
                     <div class="mb-6" style="margin-bottom: 20px;">
                         <label for="tag_select">Выберите теги для поста:</label><br>
                         <select name="tags[]" id="tag_select" class="form-select" style="background-color: #000000; color: white; height: 150px;" multiple aria-label="Выберите теги">
                             {% for el in tags %}
-                                <option value="{{ el.id }}">{{ el.name }}</option>
+                                {% if el.name in selected_tags %}
+                                    <option value="{{ el.id }}" selected>{{ el.name }}</option>
+                                {% else %}
+                                    <option value="{{ el.id }}">{{ el.name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                         <label for="custom_tags" style="padding-top: 20px">Введите свои теги (через запятую):</label><br>
@@ -40,7 +36,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2">Отправить
+                    <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2">Редактировать
                     </button>
                 </form>
             </div>

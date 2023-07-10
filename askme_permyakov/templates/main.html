@@ -1,29 +1,197 @@
-{% extends "inc/base.html" %}
-{% load static %}
+{% extends "inc/base.html" %} {% load static %} {% block content %}
+<title>StackOverflow</title>
+<link rel="stylesheet" href="{% static 'css/main.css' %}" />
 
-{% block content %}
-    <title>StackOverflow</title>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <div class style="margin-top: 0px!important">
-        <h1 id="StackOverflow_emblem" href="{% url 'main' %}" class="nav-link px-2 text-secondary">StackOverflow</h1>
-        <div class="animation">
-            <span>У каждого</span>
-            <span class="changingWord" id="changingWord">web-разработчика</span>
-            <span>есть аккаунт в StackOverflow</span>
-        </div>
-        <div class="container2">
-            <div class="block">100+ миллионов посещений каждый месяц</div>
-            <div class="block">Найди ответ на любой вопрос или задай свой</div>
-            <div class="block">Самый популярный форум по программированию</div>
-        </div>
-        <div id="registration_field">
+<style>
+  body {
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .page {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 22vh;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .container {
+    max-width: 75vw;
+    margin: auto;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  ul {
+    list-style: none;
+  }
+  .footer {
+    background-color: rgb(8, 8, 8);
+    position: sticky;
+    padding: 70px 0;
+    top: 100%;
+  }
+  .footer-col {
+    width: 25%;
+    padding: 0 15px;
+  }
+  .footer-col h4 {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 35px;
+    font-weight: 700;
+    position: relative;
+  }
+  .footer-col h4::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    background-color: rgb(255,193,7);
+    height: 2px;
+    box-sizing: border-box;
+    width: 65px;
+  }
+  .footer-col ul li:not(:last-child) {
+    margin-bottom: 10px;
+    color: rgb(154,154,159);
+  }
+  .footer-col ul li a {
+    font-size: 16px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    color: #bbbbbb;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  .footer-col ul li a:hover {
+    color: #ffffff;
+    padding-left: 8px;
+  }
+  .footer-col .social-links a {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: all 0.5s ease;
+  }
+  .footer-col .social-links a:hover {
+    color: #24262b;
+    background-color: #ffffff;
+  }
+
+  /*responsive*/
+  @media (max-width: 767px) {
+    .footer-col {
+      width: 50%;
+      margin-bottom: 30px;
+    }
+  }
+  @media (max-width: 574px) {
+    .footer-col {
+      width: 100%;
+    }
+  }
+</style>
+  <body>
+    <div class style="margin-top: 0px !important">
+      <h1
+        id="StackOverflow_emblem"
+        href="{% url 'main' %}"
+        class="nav-link px-2 text-secondary"
+      >
+        StackOverflow
+      </h1>
+      <div class="animation">
+        <span>У каждого</span>
+        <span class="changingWord" id="changingWord">web-разработчика</span>
+        <span>есть аккаунт в StackOverflow</span>
+      </div>
+      <div class="container2">
+        <div class="block">100+ миллионов посещений каждый месяц</div>
+        <div class="block">Найди ответ на любой вопрос или задай свой</div>
+        <div class="block">Самый популярный форум по программированию</div>
+      </div>
+
+
+    <div class="page">
+      <main class="content">
+          <div id="registration_field">
             {% if user.is_authenticated %}
-                <a id="btn_reg" type="button" href="{% url 'create_post' %}" class="btn btn-warning">Задайте вопрос!</a>
+            <a
+              id="btn_reg"
+              type="button"
+              href="{% url 'create_post' %}"
+              class="btn btn-warning"
+              >Задайте вопрос!</a
+            >
             {% else %}
-                <a id="btn_reg" type="button" href="{% url 'register' %}" class="btn btn-warning">Присоединяйтесь!</a>
+            <a
+              id="btn_reg"
+              type="button"
+              href="{% url 'register' %}"
+              class="btn btn-warning"
+              >Присоединяйтесь!</a
+            >
             {% endif %}
+          </div>
+          <div style="flex-grow: 1"></div>
+          <script src="{% static 'js/main.js' %}"></script>
         </div>
-        <div style="flex-grow: 1"></div>
-        <script src="{% static 'js/main.js' %}"></script>
-    </div>
+      </main>
+
+  
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="footer-col">
+            <h4>Дмитрий Пермяков</h4>
+            <ul>
+              <li><a href="https://vk.com/mightyk1ngrichard" target="_blank" style="color: rgb(154,154,159)">ВКонтакте</a></li>
+              <li><a href="https://t.me/@mightyk1ngrichard" target="_blank" style="color: rgb(154,154,159)">Telegram</a></li>
+              <li><a href="https://bmstu.codes/d.permyakov" target="_blank" style="color: rgb(154,154,159)">GitLab</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Михаил Сакулин</h4>
+            <ul>
+              <li><a href="https://vk.com/id170199555" target="_blank" style="color: rgb(154,154,159)">ВКонтакте</a></li>
+              <li><a href="https://t.me/@mikhail_sakulin" target="_blank" style="color: rgb(154,154,159)">Telegram</a></li>
+              <li><a href="https://bmstu.codes/m.sakulin" target="_blank" style="color: rgb(154,154,159)">GitLab</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Майер Максим</h4>
+            <ul>
+              <li><a href="https://vk.com/dullboybob" target="_blank" style="color: rgb(154,154,159)">ВКонтакте</a></li>
+              <li><a href="https://t.me/dullboybob" target="_blank" style="color: rgb(154,154,159)">Telegram</a></li>
+              <li><a href="https://bmstu.codes/m.mayer" target="_blank" style="color: rgb(154,154,159)">GitLab</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Электронная почта:</h4>
+            <ul>
+              <li><a>Dimapermyakov55@gmail.com</a></li>
+              <li><a>Ivanyshka1715@mail.ru</a></li>
+              <li><a>maksimaier@gmail.com</a></li>
+              <li><a></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+
 {% endblock content %}

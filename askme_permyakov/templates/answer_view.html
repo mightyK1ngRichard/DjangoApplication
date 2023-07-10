@@ -1,0 +1,105 @@
+{% load static %}
+{% load askme_tags %}
+{% block content %}
+
+    <style>
+        #respond_view {
+            background: rgba(14, 14, 16, 0.96);
+        }
+    </style>
+
+<!--class AnswerToResponse(models.Model):-->
+<!--    content = models.TextField()-->
+<!--    date_response = models.DateTimeField(auto_now=True)-->
+<!--    author = models.ForeignKey(Author, on_delete=models.CASCADE)-->
+<!--    response_parent = models.ForeignKey(Response, on_delete=models.CASCADE)-->
+
+    <div class="col-md-12" id="respond_view" style="margin-left: 150px; width: 88.5%">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <img id="logo-in-respond" src="{{ answer.author.avatar }}"
+                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; position: relative; top: 10px; margin-left: 10px;"
+                 alt="avatar"/>
+            <div class="col p-4 d-flex flex-column position-static">
+                <div style="display: inline">
+                    <a href="{% url 'user_page_by_id' user_id=answer.author.user.id %}"><strong class="d-inline-block mb-2"
+                            style="color: #0dcaf0">{{ answer.author.user.username }}</strong></a>
+                    <span style="color: white">ответил</span>
+                    <a href="{% url 'user_page_by_id' user_id=answer.whom_to_answer.id %}"><strong class="d-inline-block mb-2"
+                            style="color: #0dcaf0">{{ answer.whom_to_answer.username }}</strong></a>
+                </div>
+                <div class="mb-1 text-body-secondary" style="color: #525252; border-bottom: 1px solid gray;">{{ answer.date_response }}</div>
+                <p class="card-text mb-auto" style="padding-top: 5px;">{{ answer.content | markdown | safe }}</p>
+                {% if user.id == answer.author.user.id %}
+                    <form action="{% url 'delete_answer' %}" method="post" class="delete_answer_form">
+                        {% csrf_token %}
+                        <input type="hidden" name="answer_id" value="{{ answer.id }}">
+                        <input type="hidden" name="response_id" value="{{ answer.response_parent.id }}">
+                        <button type="submit" class="btn btn-outline-light btn-sm btn-form-submit btn_delete_answer" style="width: 100px;">
+                            Удалить
+                        </button>
+                        <script>
+                            const deleteAnswerButtons = document.querySelectorAll('.btn_delete_answer');
+
+                            deleteAnswerButtons.forEach(function (deleteAnswer) {
+                                deleteAnswer.addEventListener('click', function (event) {
+
+                                    if (confirmation) {
+                                        const answerId = deleteAnswer.getAttribute('data-answer-id');
+                                        const form = deleteAnswer.closest('form');
+                                        const responseId = form.querySelector('input[name="response_id"]').value;
+                                        const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+                                        const formData = new FormData();
+                                        formData.append('csrfmiddlewaretoken', csrfToken);
+                                        formData.append('answer_id', answerId);
+                                        formData.append('response_id', responseId);
+
+                                        fetch(form.action, {
+                                            method: 'POST',
+                                            body: formData
+                                        })
+                                        .then(answer => {
+                                           if (answer.ok) {
+                                                // Успешно удалено, выполните необходимые действия
+                                                location.reload(); // Перезагрузка страницы
+                                            } else {
+                                                // Обработка ошибки удаления
+                                                console.error('Ошибка удаления');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            // Обработка ошибки сети или других ошибок
+                                            console.error('Ошибка сети:', error);
+                                        });
+                                    }
+                                });
+                            });
+                        </script>
+                    </form>
+                {% else %}
+                    <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2 btn_answer2" type="button"
+                            data-answer-id="{{ answer.id }}" style="width: 80px; margin-bottom: 0px!important;">Ответить
+                    </button>
+                    <form hidden class='form_answer2' data-answer-id="{{ answer.id }}" method="POST" action="{% url 'question' post.id %}">
+                        {% csrf_token %}
+                        <textarea id="my-textarea" name="content" rows="5" style="background-color: rgba(24, 24, 26, 0.96); color: white;"></textarea>
+                        <div style="display: flex; justify-content: space-between;">
+                            <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2 answer_back2" data-answer-id="{{ answer.id }}"
+                                    type="button">Отменить
+                            </button>
+                            <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2"
+                                    id="send-respond">
+                                Отправить
+                            </button>
+                            <input type="hidden" name="response_or_answer" value="answer">
+                            <input type="hidden" name="resp_id" value="{{ answer.response_parent.id }}">
+                            <input type="hidden" name="whom_to_answer" value="{{ answer.author.user.id }}">
+                        </div>
+                    </form>
+                {% endif %}
+                {% include 'add_like_answer_to_response.html' with blog_post_id=answer.id %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

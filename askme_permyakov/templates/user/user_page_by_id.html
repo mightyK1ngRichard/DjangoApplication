@@ -3,14 +3,20 @@
 {% load askme_tags %}
 {% block content %}
     {% get_author_info user_id as author %}
-    <div class="container">
+    <head><title>Пользователь №{{ author.author.user.id }}</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">    
+    </head>
+    <div class="container"  style="padding-top: 50px">
         <div class row>
             <div class="col-sm">
                 {# ======== Карточка юзера ========= #}
                 <link href="{% static "css/user_page_new.css" %}" rel="stylesheet">
                 <div class="container2">
                     <div class="header-container">
-                        <img src="/{{ author.author.avatar }}" alt="" class="header-image"/>
+                        <img src="{{ author.author.avatar }}" alt="" class="header-image"/>
                         <div class="header">
                             <h1 class="main-heading">{{ author.author.user.first_name }} {{ author.author.user.last_name }}</h1>
                             <span class="tag">{{ author.author.user.username }}</span>
@@ -30,9 +36,10 @@
                     </div>
                     <div class="overlay-header"></div>
                     <div class="body">
-                        <img src="/{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
+                        <img src="{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
                         <span class="body-stats">Постов: <span>{{ author.count_post }}</span></span>
-                        <span class="body-stats">Ответов: <span>{{ author.count_responses }}</span></span>
+                        <span class="body-stats" style="padding-left: 60px!important;">Ответов: <span>{{ author.count_responses }}</span></span><br><br>
+                        <span class="body-stats">Получено лайков: <span>{{ author.count_likes }}</span></span>
                         <div class="u-clearfix"></div>
                     </div>
                 </div>

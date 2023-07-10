@@ -2,6 +2,7 @@
 {% load askme_tags %}
 
 {% block content %}
+
     <style>
         .single_advisor_profile {
             position: relative;
@@ -33,11 +34,17 @@
         }
     </style>
 
+    <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">
+    </head>
     <div class="col-12 col-sm-6 col-lg-3">
         <a href="/user/{{ user.user.id }}">
             <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s"
                  style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                <div class="advisor_thumb"><img src="/{{ user.avatar }}" alt="">
+                <div class="advisor_thumb"><img src="{{ user.avatar }}" alt="">
                     <div class="social-info">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>

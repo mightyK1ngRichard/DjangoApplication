@@ -5,16 +5,27 @@
 {% block content %}
     {% get_responses_under_post post.id as responses %}
     <title>Пост №{{ post.id }}</title>
-    <div class="container">
+    <div class="container" style="padding-top: 20px;">
         <div class="event">
             <div class="p-2 mb-2 bg-body-tertiary rounded-3" style="margin-top: 10px">
                 <div class="row align-items-center">
                     <div class="col-auto">
-                        <img src="/{{ post.author.avatar }}" alt="avatar"
-                             style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;">
+                        <img src="{{ post.author.avatar }}" alt="avatar"
+                             style="height: 50px;
+                                width: 50px;
+                                border-radius: 50%;
+                                object-fit: cover;"
+                                alt="logo">
                     </div>
                     <div class="col-auto">
-                        <h6 class="mb-0">{{ post.author.user.username }}</h6>
+                        <h6>
+                            <a href="{% url 'user_page_by_id' user_id=post.author.user.id %}">
+                              <p style="color: #0dcaf0; padding-top: 10px" class="d-inline-block mb-2 username-link">
+                                {{ post.author.user.username }}
+                              </p>
+                            </a>
+                        </h6>
+<!--                        <h6 class="mb-0">{{ post.author.user.username }}</h6>-->
 <!--                        <h1>{{ post.likes_count }}</h1>-->
                     </div>
                 </div>
@@ -28,15 +39,25 @@
                     {% if user.is_authenticated %}
                         {% isAuthor user.id post.author.id as isAuthorOfPost %}
                         {% if isAuthorOfPost %}
-                            <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
-                                  action="{% url 'delete_post' %}">
-                                {% csrf_token %}
-                                <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="submit"
-                                        name="post_id" id="post"
-                                        value="{{ post.id }}"
-                                        onclick="return confirmDelete();">Удалить
-                                </button>
-                            </form>
+                            <div style="display: flex; align-items: center;">
+                                <form class="d-flex" role="search" style="margin-right: 20px" method="POST"
+                                      action="{% url 'delete_post' %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-light btn-sm btn-form-submit" type="submit"
+                                            name="post_id" id="post"
+                                            value="{{ post.id }}"
+                                            style="margin-right: 120px"
+                                            onclick="return confirmDelete();">Удалить
+                                    </button>
+                                </form>
+                                <form class="d-flex" role="search" style="margin-right: 20px" method="GET"
+                                      action="{% url 'update_post' post.id %}">
+                                    <button class="btn btn-outline-warning btn-sm btn-form-submit mb-2 mt-2" type="submit"
+                                            name="post_id" id="post"
+                                            value="{{ post.id }}">Редактировать
+                                    </button>
+                                </form>
+                            </div>
                         {% else %}
                             <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2" type="button"
                                     id="respond">Ответить
@@ -54,12 +75,12 @@
                     <div class="row">
                         {% get_tags post.id as tags %}
                         <div class="col-2">
-                            Ответы ({{ responses.count }})
+                            Ответы ({% get_count_answer_full responses %})
                         </div>
                         <div class="col-6">
                             Теги:
                             {% for tag in tags %}
-                                <a href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
+                                <a style="margin-right: 4px;" href="/tag/{{ tag.tag_id }}">{{ tag.tag.name }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -117,6 +138,7 @@
                             Отправить
                         </button>
                     </div>
+                    <input type="hidden" name="response_or_answer" value="response">
                 </form>
             </div>
 
@@ -127,6 +149,10 @@
                 {% else %}
                     {% for respond in responses %}
                         {% include 'respond_view.html' with post=post respond=respond %}
+                        {% get_answer_under_response respond.response.id as answers %}
+                        {% for answer in answers %}
+                            {% include 'answer_view.html' with respond=respond post=post %}
+                        {% endfor %}
                     {% endfor %}
                 {% endif %}
             </div>

@@ -4,11 +4,18 @@
 
 {% block content %}
     {% get_author_info user.id as author %}
+    <head>
+        <title>Аккаунт</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'img/favicon/site.webmanifest' %}">
+    </head>
     <link href="{% static "css/user_page_new.css" %}" rel="stylesheet">
     <div class="container_main">
         <div class="container2">
             <div class="header-container">
-                <img src="/{{ author.author.avatar }}" alt="" class="header-image"/>
+                <img src="{{ author.author.avatar }}" alt="" class="header-image"/>
                 <div class="header">
                     <svg fill="#ffffff" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"
                          class="header-icon">
@@ -36,7 +43,7 @@
             <div class="overlay-header"></div>
 
             <div class="body">
-                <img src="/{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
+                <img src="{{ author.author.avatar }}" alt="Hugh Jackman" class="body-image"/>
                 <div class="body-action-button u-flex-center" id="my-button">
                     <svg fill="#ffffff" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="18">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -57,9 +64,22 @@
                         </g>
                     </svg>
                 </div>
+                <span class="body-stats" style="position: absolut; top: -40px;">Редактировать профиль:</span>
                 <span class="body-stats">Постов: <span>{{ author.count_post }}</span></span>
-                <span class="body-stats">Ответов: <span>{{ author.count_responses }}</span></span>
-                <div class="u-clearfix"></div>
+                <span class="body-stats" style="padding-left: 60px!important;">Ответов: <span>{{ author.count_responses }}</span></span><br><br>
+                <span class="body-stats">Получено лайков: <span>{{ author.count_likes }}</span></span>
+                <div class="u-clearfix" style="text-align: right; padding-top: 50px">
+                    <form method="post" action="{% url 'change_password' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Сменить пароль</button>
+                    </form>
+                </div>
+                <div class="delete-account" style="text-align: right; margin-top: 10px;">
+                    <form method="post" action="{% url 'delete_account' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete();">Удалить аккаунт</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -92,5 +112,10 @@
         document.getElementById("my-button").addEventListener("click", function () {
             editionView.hidden = !editionView.hidden
         });
+
+        function confirmDelete() {
+                    const confirmation = confirm("Вы уверены, что хотите удалить свой аккаунт? Действие нельзя будет отменить!");
+                    return confirmation;
+                }
     </script>
 {% endblock content %}

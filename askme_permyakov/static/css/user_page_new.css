@@ -163,7 +163,7 @@
     height: 40px;
     position: absolute;
     right: 15px;
-    top: -80px;
+    top: -50px;
     width: 40px;
 }
 
@@ -172,10 +172,10 @@
     font-size: 12px;
     font-weight: 700;
     float: left;
-    margin: -14px 0 0 30px;
+    margin: -14px 10px 0px;
     position: relative;
     text-transform: uppercase;
-    width: 20%;
+    padding-left: 20px;
 }
 
 .body-stats > span {

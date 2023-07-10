@@ -10,70 +10,85 @@
 
     <div class="col-md-12" id="respond_view">
         <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-            <img id="logo-in-respond" src="/{{ respond.response.author.avatar }}"
-                 style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; margin-left:  10px"
+            <img id="logo-in-respond" src="{{ respond.response.author.avatar }}"
+                 style="padding-top: 0px; width: 100px; height: 100px; border-radius: 50%; object-fit: cover; position: relative; top: 10px; margin-left: 10px;"
                  alt="avatar"/>
             <div class="col p-4 d-flex flex-column position-static">
-                <a href="{% url 'user_page_by_id' user_id=respond.response.author.user.id %}"><strong class="d-inline-block mb-2"
+                <div style="display: inline">
+                    <a href="{% url 'user_page_by_id' user_id=respond.response.author.user.id %}"><strong class="d-inline-block mb-2"
                         style="color: #0dcaf0">{{ respond.response.author.user.username }}</strong></a>
-                <div class="mb-1 text-body-secondary" style="color: #525252">{{ respond.response.date_response }}</div>
-                <p class="card-text mb-auto">{{ respond.response.content | markdown | safe }}</p>
-                {% include 'add_like_answer.html' with blog_post_id=respond.response.id %}
-            </div>
+               </div>
+                <div class="mb-1 text-body-secondary" style="color: #525252; border-bottom: 1px solid gray;">{{ respond.response.date_response }}</div>
+                <p class="card-text mb-auto" style="padding-top: 5px;">{{ respond.response.content | markdown | safe }}</p>
+                <div style="display: inline">
+                    {% if user.id == respond.response.author.user.id %}
+                        <form action="{% url 'delete_respond' %}" method="post" class="delete_respond_form">
+                            {% csrf_token %}
+                            <input type="hidden" name="respond_id" value="{{ respond.response.id }}">
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            <button type="submit" class="btn btn-outline-light btn-sm btn-form-submit btn_delete_respond" style="width: 100px;">
+                                Удалить
+                            </button>
+                            <script>
+                                const deleteRespondButton = document.querySelector('.btn_delete_respond');
+                                deleteRespondButton.addEventListener('click', function(event) {
 
-            {% if user.is_authenticated %}
+                                    if (confirmation) {
+                                        const respondId = deleteRespondButton.getAttribute('data-respond-id');
+                                        const form = deleteRespondButton.closest('form');
+                                        const postId = form.querySelector('input[name="post_id"]').value;
+                                        const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
-                {% isAuthor user.id respond.response.author.id as isAuthorOfRespond %}
-                {% if isAuthorOfRespond %}
-                    <form action="{% url 'delete_respond' %}" method="post">
-                        {% csrf_token %}
-                        <button type="button" class="btn btn-outline-light btn-sm btn-form-submit" style="width: 100px;"
-                                onclick="confirmDelete();">
-                            Удалить
+                                        const formData = new FormData();
+                                        formData.append('csrfmiddlewaretoken', csrfToken);
+                                        formData.append('respond_id', respondId);
+                                        formData.append('post_id', postId);
+
+                                        fetch(form.action, {
+                                            method: 'POST',
+                                            body: formData
+                                        })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                // Успешно удалено, выполните необходимые действия
+                                                location.reload(); // Перезагрузка страницы
+                                            } else {
+                                                // Обработка ошибки удаления
+                                                console.error('Ошибка удаления');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            // Обработка ошибки сети или других ошибок
+                                            console.error('Ошибка сети:', error);
+                                        });
+                                    }
+                                });
+                            </script>
+                        </form>
+                    {% else %}
+                        <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2 btn_answer1" type="button"
+                                data-respond-id="{{ respond.response.id }}" {% if user.id == respond.response.author.user.id %} disabled {% endif %} style="width: 80px; margin-bottom: 0px!important;">Ответить
                         </button>
-                        <script>
-                            function confirmDelete() {
-                                const respondId = "{{ respond.response.id }}";
-                                const postId = "{{ post.id }}"; // Замените "значение_post_id" на фактическое значение post_id
-
-                                // Предупреждающее диалоговое окно
-                                const confirmation = confirm("Вы уверены, что хотите удалить?");
-
-                                if (confirmation) {
-                                    // Создание формы и добавление полей с значениями respond_id и post_id
-                                    const form = document.createElement("form");
-                                    form.method = "POST";
-                                    form.action = "{% url 'delete_respond' %}";
-
-                                    const csrfTokenInput = document.createElement("input");
-                                    csrfTokenInput.type = "hidden";
-                                    csrfTokenInput.name = "csrfmiddlewaretoken";
-                                    csrfTokenInput.value = "{{ csrf_token }}";  // CSRF-токен Django
-                                    form.appendChild(csrfTokenInput);
-
-                                    const respondIdInput = document.createElement("input");
-                                    respondIdInput.type = "hidden";
-                                    respondIdInput.name = "respond_id";
-                                    respondIdInput.value = respondId;
-                                    form.appendChild(respondIdInput);
-
-                                    const postIdInput = document.createElement("input");
-                                    postIdInput.type = "hidden";
-                                    postIdInput.name = "post_id";
-                                    postIdInput.value = postId;
-                                    form.appendChild(postIdInput);
-
-                                    // Добавление формы на страницу и отправка запроса
-                                    document.body.appendChild(form);
-                                    form.submit();
-                                }
-                            }
-                        </script>
-                    </form>
-                {% endif %}
-
-            {% endif %}
-
+                        <form hidden class='form_answer1' data-respond-id="{{ respond.response.id }}" method="POST" action="{% url 'question' post.id %}">
+                            {% csrf_token %}
+                            <textarea id="my-textarea" name="content" rows="5" style="background-color: rgba(24, 24, 26, 0.96); color: white;"></textarea>
+                            <div style="display: flex; justify-content: space-between;">
+                                <button class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2 answer_back1" data-respond-id="{{ respond.response.id }}"
+                                        type="button">Отменить
+                                </button>
+                                <button type="submit" class="btn btn-outline-warning btn-sm btn-form-submit mb-4 mt-2"
+                                        id="send-respond">
+                                    Отправить
+                                </button>
+                                <input type="hidden" name="response_or_answer" value="answer">
+                                <input type="hidden" name="resp_id" value="{{ respond.response.id }}">
+                                <input type="hidden" name="whom_to_answer" value="{{ respond.response.author.user.id }}">
+                            </div>
+                        </form>
+                    {% endif %}
+                    {% include 'add_like_answer.html' with blog_post_id=respond.response.id %}
+                </div>
+            </div>
         </div>
     </div>
 
