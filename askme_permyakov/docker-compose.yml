@@ -6,11 +6,11 @@ services:
       dockerfile: Dockerfile
     container_name: django-app
     command: python manage.py runserver 0.0.0.0:7100
-#    command: sh -c "gunicorn --bind 0.0.0.0:8000 askme_permyakov.wsgi" # Проблема с css js файлами...
+#    command: sh -c "gunicorn --bind 0.0.0.0:7100 askme_permyakov.wsgi" # Очень долго работает...
     ports:
       - "80:7100"
-    volumes:
-      - static_data:/static
-
-volumes:
-  static_data:
+#    volumes:
+#      - static_data:/static
+#
+#volumes:
+#  static_data:
